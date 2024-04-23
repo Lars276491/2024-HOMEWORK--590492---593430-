@@ -28,7 +28,7 @@ public class DiaDia {
 			"o regalarli se pensi che possano ingraziarti qualcuno.\n\n"+
 			"Per conoscere le istruzioni usa il comando 'aiuto'.";
 	
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa"};
+	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa", "guarda"};
 
 	private Partita partita;
 	private IOConsole io;
@@ -37,6 +37,10 @@ public class DiaDia {
 	public DiaDia(Labirinto labirinto, IOConsole io) {
 		this.partita = new Partita(labirinto);
 		this.io = io;
+	}
+
+	public DiaDia(IO io) {
+		this.io=io;
 	}
 
 	public void gioca() {
@@ -56,6 +60,23 @@ public class DiaDia {
 	 *
 	 * @return true se l'istruzione e' eseguita e il gioco continua, false altrimenti
 	 */
+	
+	private boolean processaIstruzione(String istruzione) {
+		Comando comandoDaEseguire;
+		FabbricaDiComandi factory = new FabbricaDiComandi()
+				comandoDaEseguire = factory.costruisciComando(istruzione);
+		comandoDaEseguire.esegui(this.partita);
+		if (this.partita.vinta())
+
+			System.out.println("Hai vinto!");
+		if (!this.partita.giocatoreIsVivo())
+
+			System.out.println("Hai esaurito i CFU...");
+
+		return this.partita.isFinita();
+	}
+    
+	/*
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire = new Comando(istruzione);
 
@@ -77,7 +98,7 @@ public class DiaDia {
 			return true;
 		} else
 			return false;
-	}   
+	}   */
 
 	// implementazioni dei comandi dell'utente:
 
@@ -145,9 +166,9 @@ public class DiaDia {
 	}
 
 	public static void main(String[] args) {
-		IOConsole io = new IOConsole();
-		Labirinto labirinto = new Labirinto();
-		DiaDia gioco = new DiaDia(labirinto, io);
+		IO io = new IOConsole();
+//		Labirinto labirinto = new Labirinto();
+		DiaDia gioco = new DiaDia(io);
 		gioco.gioca();
 		
 		
