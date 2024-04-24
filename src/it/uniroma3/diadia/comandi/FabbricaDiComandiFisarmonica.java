@@ -1,9 +1,10 @@
-package it.uniroma3.diadia.comandi
+package it.uniroma3.diadia.comandi;
+
 
 import java.util.Scanner;
 
 public class FabbricaDiComandiFisarmonica implements FabbricaDiComandi {
-
+	
 	public Comando costruisciComando(String istruzione) {
 
 		Scanner scannerDiParole = new Scanner(istruzione);

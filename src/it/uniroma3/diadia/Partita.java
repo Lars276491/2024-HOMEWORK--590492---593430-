@@ -1,8 +1,6 @@
 package it.uniroma3.diadia;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
-import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.giocatore.Borsa;
 import it.uniroma3.diadia.giocatore.Giocatore; 
 /**
  * Questa classe modella una partita del gioco
@@ -81,6 +79,10 @@ public class Partita {
 	 */
 	public void setFinita() {
 		this.finita = true;
+	}
+
+	public boolean giocatoreIsVivo() {
+		return this.giocatore.getCfu() > 0;
 	}
 	
 }
