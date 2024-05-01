@@ -5,14 +5,14 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.*;
 
 public class ComandoPosa implements Comando{
-	
+
 	private String nomeAttrezzo;
-	
-	
+
+
 	public ComandoPosa(String parametro) {
 		this.nomeAttrezzo=parametro;
 	}
-	
+
 	IO io = new IOConsole();	
 
 	@Override
@@ -21,15 +21,17 @@ public class ComandoPosa implements Comando{
 			return;
 		if(nomeAttrezzo==null)
 			io.mostraMessaggio("Che attrezzo vuoi posare");
-		
-		Attrezzo attrezzo = partita.getGiocatore().getBorsa().removeAttrezzo(nomeAttrezzo);
-		if(partita.getStanzaCorrente().addAttrezzo(attrezzo))
-			io.mostraMessaggio("L'attrezzo è stato posato nella stanza");
 		else {
-			partita.getGiocatore().getBorsa().addAttrezzo(attrezzo);
-			io.mostraMessaggio("Impossibile posare attrezzo");
+			Attrezzo attrezzo = partita.getGiocatore().getBorsa().removeAttrezzo(nomeAttrezzo);
+			if(partita.getStanzaCorrente().addAttrezzo(attrezzo))
+				io.mostraMessaggio("L'attrezzo è stato posato nella stanza");
+			else {
+				partita.getGiocatore().getBorsa().addAttrezzo(attrezzo);
+				io.mostraMessaggio("Impossibile posare attrezzo");
+			}
 		}
 	}
+	
 
 	@Override
 	public String getNome() {

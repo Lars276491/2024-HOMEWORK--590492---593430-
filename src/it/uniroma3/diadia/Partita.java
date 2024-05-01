@@ -80,9 +80,11 @@ public class Partita {
 	public void setFinita() {
 		this.finita = true;
 	}
-
+	
+	/* cosa che ho aggiunto io da notion*/
 	public boolean giocatoreIsVivo() {
-		return this.giocatore.getCfu() > 0;
+		return this.giocatore.getCfu()>0;
 	}
+
 	
 }
