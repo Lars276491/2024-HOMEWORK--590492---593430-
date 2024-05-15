@@ -18,16 +18,16 @@ public class ComandoFine implements Comando{
 
 	@Override
 	public String getParametro() {
-		return null; // This command does not require a parameter
+		return null; 
 	}
 
 	@Override
 	public boolean sconosciuto() {
-		return false; // This command is not unknown
+		return false;
 	}
 
 	@Override
 	public void setParametro(String parametro) {
-		// This command does not require a parameter, so this method does nothing
+		
 	}
 }

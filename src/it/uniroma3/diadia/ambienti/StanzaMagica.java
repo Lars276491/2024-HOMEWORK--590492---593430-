@@ -1,7 +1,6 @@
 package it.uniroma3.diadia.ambienti;
 
-import it.uniroma3.diadia.attrezzi.Attrezzo; // ho importato questo perchè mi dava questo errore: "Attrezzo cannot be resolved to a type"
-// di fare questo import me lo suggeriva eclipse; per vedere altri suggerimenti commentare import e far ritornare errore
+import it.uniroma3.diadia.attrezzi.Attrezzo; 
 
 class StanzaMagica extends Stanza {
 	final static private int SOGLIA_MAGICA_DEFAULT = 3;

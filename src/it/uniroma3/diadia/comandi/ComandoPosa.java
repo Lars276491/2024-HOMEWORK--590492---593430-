@@ -31,6 +31,7 @@ public class ComandoPosa implements Comando{
 			}
 		}
 	}
+	
 
 	@Override
 	public String getNome() {

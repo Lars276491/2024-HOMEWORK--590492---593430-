@@ -23,26 +23,6 @@ public interface Comando {
 	*/
 	public void esegui(Partita partita);
 	
-    /*private String nome;
-    private String parametro;
-
-    public Comando(String istruzione) {
-    	
-    	if(istruzione.equals("")) {
-    		this.nome = "";
-    		this.parametro = "";
-    	}
-    	
-		Scanner scannerDiParole = new Scanner(istruzione);
-
-		// prima parola: nome del comando
-		if (scannerDiParole.hasNext())
-			this.nome = scannerDiParole.next(); 
-
-		// seconda parola: eventuale parametro
-		if (scannerDiParole.hasNext())
-			this.parametro = scannerDiParole.next();
-    }*/
 
     public String getNome();
 

@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class ComandoPosaTest {
 	private Partita partita;
-	private ComandoPosa comandoPosa;
+	private Comando comando;
 	private Attrezzo attrezzo;
 	private Labirinto labirinto;
 
@@ -17,35 +17,45 @@ public class ComandoPosaTest {
 	public void setUp() {
 		labirinto = new Labirinto();
 		partita = new Partita(labirinto);
-		comandoPosa = new ComandoPosa("attrezzo");
+		comando = new ComandoPosa("attrezzo");
 		attrezzo = new Attrezzo("attrezzo", 1);
 		partita.getGiocatore().getBorsa().addAttrezzo(attrezzo);
 	}
-
+	
 	@Test
-	public void testEsegui() {
-		comandoPosa.esegui(partita);
-		//da rivedere con Sara
+	public void testAttrezzoPosato() {
+		Attrezzo martello = new Attrezzo("martello", 6);
+		partita.getGiocatore().getBorsa().addAttrezzo(martello);
+		comando.setParametro("martello");
+		comando.esegui(partita);
+		assertTrue(partita.getStanzaCorrente().hasAttrezzo("martello"));
 	}
-
+	
+	@Test
+	public void testAttrezzoPosatoNull() {
+		comando.esegui(partita);
+		assertFalse(partita.getStanzaCorrente().hasAttrezzo("martello"));
+	}
+	
+	
 	@Test
 	public void testGetNome() {
-		assertEquals("Comando posa", comandoPosa.getNome());
+		assertEquals("Comando posa", comando.getNome());
 	}
 
 	@Test
 	public void testSconosciuto() {
-		assertFalse(comandoPosa.sconosciuto());
+		assertFalse(comando.sconosciuto());
 	}
 
 	@Test
 	public void testGetParametro() {
-		assertEquals("attrezzo", comandoPosa.getParametro());
+		assertEquals("attrezzo", comando.getParametro());
 	}
 
 	@Test
 	public void testSetParametro() {
-		comandoPosa.setParametro("altro_attrezzo");
-		assertEquals("altro_attrezzo", comandoPosa.getParametro());
+		comando.setParametro("altro_attrezzo");
+		assertEquals("altro_attrezzo", comando.getParametro());
 	}
 }

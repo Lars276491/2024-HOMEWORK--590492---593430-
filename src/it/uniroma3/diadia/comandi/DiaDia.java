@@ -43,8 +43,8 @@ public class DiaDia {
 
 	public DiaDia(IO io) {
 		this.io = io;
-		Labirinto labirinto = new Labirinto(); // Create a new Labirinto
-		this.partita = new Partita(labirinto); // Initialize this.partita
+		Labirinto labirinto = new Labirinto(); 
+		this.partita = new Partita(labirinto); 
 	}
 
 	public void gioca() {
@@ -83,7 +83,6 @@ public class DiaDia {
 
 	public static void main(String[] args) {
 		IO io = new IOConsole();
-//		Labirinto labirinto = new Labirinto();
 		DiaDia gioco = new DiaDia(io);
 		gioco.gioca();
 		

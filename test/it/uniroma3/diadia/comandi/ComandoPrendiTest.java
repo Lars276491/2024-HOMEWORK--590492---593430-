@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class ComandoPrendiTest {
 	private Partita partita;
-	private ComandoPrendi comandoPrendi;
+	private ComandoPrendi comando;
 	private Attrezzo attrezzo;
 	private Labirinto labirinto;
 
@@ -17,35 +17,40 @@ public class ComandoPrendiTest {
 	public void setUp() {
 		labirinto = new Labirinto();
 		partita = new Partita(labirinto);
-		comandoPrendi = new ComandoPrendi("attrezzo");
+		comando = new ComandoPrendi("attrezzo");
 		attrezzo = new Attrezzo("attrezzo", 1);
 		partita.getStanzaCorrente().addAttrezzo(attrezzo);
 	}
-
+	@Test
+	public void testComandoPrendiNull() {
+		comando.setParametro("martello");
+		assertFalse(partita.getGiocatore().getBorsa().hasAttrezzo("martello"));
+	}
+	
 	@Test
 	public void testEsegui() {
-		comandoPrendi.esegui(partita);
+		comando.esegui(partita);
 		assertTrue(partita.getGiocatore().getBorsa().hasAttrezzo("attrezzo"));
 	}
 
 	@Test
 	public void testGetNome() {
-		assertEquals("Comando prendi", comandoPrendi.getNome());
+		assertEquals("Comando prendi", comando.getNome());
 	}
 
 	@Test
 	public void testSconosciuto() {
-		assertFalse(comandoPrendi.sconosciuto());
+		assertFalse(comando.sconosciuto());
 	}
 
 	@Test
 	public void testGetParametro() {
-		assertEquals("attrezzo", comandoPrendi.getParametro());
+		assertEquals("attrezzo", comando.getParametro());
 	}
 
 	@Test
 	public void testSetParametro() {
-		comandoPrendi.setParametro("altro_attrezzo");
-		assertEquals("altro_attrezzo", comandoPrendi.getParametro());
+		comando.setParametro("altro_attrezzo");
+		assertEquals("altro_attrezzo", comando.getParametro());
 	}
 }
