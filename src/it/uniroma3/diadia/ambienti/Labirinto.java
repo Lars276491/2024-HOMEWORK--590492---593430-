@@ -13,6 +13,8 @@ public class Labirinto {
 	/* Stanza iniziale e stanza finale-vincente */
 	private Stanza stanzaIniziale;
 	private Stanza stanzaVincente;
+	private Stanza stanzaCorrente;
+	private Stanza ultimaStanzaAggiunta;
 
 	public Labirinto() {
 		this.creaStanze();
@@ -62,5 +64,23 @@ public class Labirinto {
 	public Stanza getStanzaVincente() {
 		return stanzaVincente;
 	}
+
+	public void setStanzaVincente(Stanza stanzaVincente) {
+		this.stanzaVincente = stanzaVincente;
+	}
+
+
+	public void setStanzaCorrente(Stanza stanzaCorrente) {
+		this.stanzaCorrente = stanzaCorrente;
+	}
+
+	public Stanza getStanzaCorrente() {
+		return this.stanzaCorrente;
+	}
+
+	public Stanza getUltimaAggiunta() {
+		return this.ultimaStanzaAggiunta;
+	}
+
 
 }

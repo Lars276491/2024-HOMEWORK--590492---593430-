@@ -11,13 +11,19 @@ public class PartitaTest {
 	private Partita p;
 	private Labirinto l;
 	private Giocatore g;
+	private Stanza s;
 
 
 	@Before
 	public void setUp() {
-		l = new Labirinto(); 
-		p = new Partita(l);
-		g = p.getGiocatore();
+		l = new LabirintoBuilder()
+				.addStanzaIniziale("Atrio")
+				.addAttrezzo("martello", 3)
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("Atrio", "Biblioteca", "nord")
+				.getLabirinto();
+		 p = new Partita(l);
+		 s = new Stanza("Stanza");
 
 	}
 

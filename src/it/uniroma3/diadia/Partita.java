@@ -81,7 +81,7 @@ public class Partita {
 		this.finita = true;
 	}
 	
-	/* cosa che ho aggiunto io da notion*/
+	
 	public boolean giocatoreIsVivo() {
 		return this.giocatore.getCfu()>0;
 	}

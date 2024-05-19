@@ -3,9 +3,7 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-
-
-
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -83,6 +81,11 @@ public class DiaDia {
 
 	public static void main(String[] args) {
 		IO io = new IOConsole();
+		Labirinto labirinto=new LabirintoBuilder()
+				.addStanzaIniziale("LabCampusOne")
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("LabCampusOne", "Biblioteca", "ovest")
+				.getLabirinto();
 		DiaDia gioco = new DiaDia(io);
 		gioco.gioca();
 		
