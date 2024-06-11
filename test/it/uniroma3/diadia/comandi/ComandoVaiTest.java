@@ -15,7 +15,7 @@ public class ComandoVaiTest {
 	public void setUp() {
 		labirinto= new Labirinto();
 		partita = new Partita(labirinto);
-		comandoVai = new ComandoVai("nord");
+		comandoVai = new ComandoVai();
 	}
 
 	@Test
@@ -28,11 +28,6 @@ public class ComandoVaiTest {
 	@Test
 	public void testGetNome() {
 		assertEquals("Comando vai", comandoVai.getNome());
-	}
-
-	@Test
-	public void testSconosciuto() {
-		assertFalse(comandoVai.sconosciuto());
 	}
 
 	@Test

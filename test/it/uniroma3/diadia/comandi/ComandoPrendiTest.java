@@ -17,7 +17,7 @@ public class ComandoPrendiTest {
 	public void setUp() {
 		labirinto = new Labirinto();
 		partita = new Partita(labirinto);
-		comando = new ComandoPrendi("attrezzo");
+		comando = new ComandoPrendi();
 		attrezzo = new Attrezzo("attrezzo", 1);
 		partita.getStanzaCorrente().addAttrezzo(attrezzo);
 	}
@@ -36,11 +36,6 @@ public class ComandoPrendiTest {
 	@Test
 	public void testGetNome() {
 		assertEquals("Comando prendi", comando.getNome());
-	}
-
-	@Test
-	public void testSconosciuto() {
-		assertFalse(comando.sconosciuto());
 	}
 
 	@Test

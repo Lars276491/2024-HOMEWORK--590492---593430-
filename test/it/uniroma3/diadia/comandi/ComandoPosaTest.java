@@ -17,7 +17,7 @@ public class ComandoPosaTest {
 	public void setUp() {
 		labirinto = new Labirinto();
 		partita = new Partita(labirinto);
-		comando = new ComandoPosa("attrezzo");
+		comando = new ComandoPosa();
 		attrezzo = new Attrezzo("attrezzo", 1);
 		partita.getGiocatore().getBorsa().addAttrezzo(attrezzo);
 	}
@@ -41,11 +41,6 @@ public class ComandoPosaTest {
 	@Test
 	public void testGetNome() {
 		assertEquals("Comando posa", comando.getNome());
-	}
-
-	@Test
-	public void testSconosciuto() {
-		assertFalse(comando.sconosciuto());
 	}
 
 	@Test

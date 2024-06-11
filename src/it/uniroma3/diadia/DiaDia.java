@@ -1,7 +1,8 @@
 package it.uniroma3.diadia;
 
+import java.io.FileNotFoundException;
+
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.comandi.*;
 
 /**
@@ -40,7 +41,7 @@ public class DiaDia {
 
 	public DiaDia(IO io) {
 		this.io = io;
-		Labirinto labirinto = new Labirinto(); 
+		Labirinto labirinto = Labirinto.newBuilder().getLabirinto(); 
 		this.partita = new Partita(labirinto); 
 	}
 
@@ -69,7 +70,8 @@ public class DiaDia {
 	
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire;
-		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
+	//	FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica(); questo commento poi lo si può levare perchè dobbiamo sostituire fabComandiFisarmonica con la riflessiva
+		FabbricaDiComandi factory = new FabbricaDiComandiRiflessiva();
 				comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
 		if (this.partita.vinta())
@@ -85,11 +87,18 @@ public class DiaDia {
 
 	public static void main(String[] args) {
 		IO io = new IOConsole();
-		Labirinto labirinto=new LabirintoBuilder()
+		Labirinto labirinto=null;
+		try {
+			labirinto = Labirinto.newBuilder("File.txt").getLabirinto();
+		} catch (FileNotFoundException | FormatoFileNonValidoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	/*	Labirinto labirinto=new LabirintoBuilder()
 				.addStanzaIniziale("LabCampusOne")
 				.addStanzaVincente("Biblioteca")
-				.addAdiacenza("LabCampusOne", "Biblioteca", "ovest")
-				.getLabirinto();
+				.addAdiacenza("LabCampusOne", "Biblioteca", Direzione.ovest)
+				.getLabirinto();*/
 		DiaDia gioco = new DiaDia(io, labirinto);
 		gioco.gioca();
 		

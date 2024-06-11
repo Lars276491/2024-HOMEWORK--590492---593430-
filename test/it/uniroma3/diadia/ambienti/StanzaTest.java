@@ -77,14 +77,14 @@ public class StanzaTest {
 	public void testGetStanzaAdiacente_StanzaEsistente() {
 	    Stanza stanza1 = new Stanza("stanza1");
 	    Stanza stanza2 = new Stanza("stanza2");
-	    stanza1.impostaStanzaAdiacente("nord", stanza2);
-	    assertEquals(stanza2, stanza1.getStanzaAdiacente("nord"));
+	    stanza1.impostaStanzaAdiacente(Direzione.nord, stanza2); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
+	    assertEquals(stanza2, stanza1.getStanzaAdiacente(Direzione.nord)); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
 	}
 	
 	@Test
 	public void testGetStanzaAdiacente_StanzaNonEsistente() {
 	    Stanza stanza = new Stanza("stanza");
-	    assertNull(stanza.getStanzaAdiacente("nord"));
+	    assertNull(stanza.getStanzaAdiacente(Direzione.nord)); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
 	}
 	
 	

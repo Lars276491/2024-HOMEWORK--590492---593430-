@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
+
 public class LabirintoTest {
 	private Labirinto l = new Labirinto();
 	private final Stanza si = new Stanza("Atrio");
@@ -16,7 +18,7 @@ public class LabirintoTest {
 				.addStanzaIniziale("Atrio")
 				.addAttrezzo("martello", 3)
 				.addStanzaVincente("Biblioteca")
-				.addAdiacenza("Atrio", "Biblioteca", "nord")
+				.addAdiacenza("Atrio", "Biblioteca", Direzione.nord) 
 				.getLabirinto();
 	}
 	

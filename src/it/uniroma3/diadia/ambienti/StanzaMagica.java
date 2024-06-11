@@ -44,7 +44,7 @@ public class StanzaMagica extends Stanza {
 	}
 
 	public boolean isMagica() {
-		return this.contatoreAttrezziPosati >= this.sogliaMagica;
+		return this.contatoreAttrezziPosati > this.sogliaMagica;
 	}
 
 }

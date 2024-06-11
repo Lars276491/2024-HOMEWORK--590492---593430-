@@ -1,9 +1,12 @@
 package it.uniroma3.diadia.ambienti;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
 /**
  * Classe Stanza - una stanza in un gioco di ruolo.
  * Una stanza e' un luogo fisico nel gioco.
@@ -15,14 +18,18 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  * @version base
  */
 public class Stanza {
-	static final private int NUMERO_MASSIMO_DIREZIONI = 4;
-	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
+	//	static final private int NUMERO_MASSIMO_ATTREZZI = 10; da togliere perchè riguarda ancora gli array, ma poi siamo passati alle liste e quindi questo va tolto
 
 	private String nome;
 	private Map<String,Attrezzo> attrezzi;    
 	private int numeroAttrezzi;
 
-	private Map<String,Stanza> stanzeAdiacenti;  
+	
+	/* presi da notion */
+	private Map<Direzione, Stanza> direzioni2stanze;
+	private int numeroStanzeAdiacenti;
+	private AbstractPersonaggio personaggio;
+
 
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
@@ -30,27 +37,58 @@ public class Stanza {
 	 */
 	public Stanza(String nome) {
 		this.nome = nome;
+		this.numeroStanzeAdiacenti = 0; //da notion
 		this.numeroAttrezzi = 0;
-		this.stanzeAdiacenti = new HashMap<>(NUMERO_MASSIMO_DIREZIONI);
-		this.attrezzi = new HashMap<>(NUMERO_MASSIMO_ATTREZZI);
+		
+		this.attrezzi = new HashMap<>(); // notion non lo mette
+		this.direzioni2stanze = new HashMap<>(); //da notion
+
 	}
+	
+	public List<Stanza> getStanzeAdiacenti() {
+		List<Stanza> listaStanzeAdiacenti = new ArrayList<>();
+		for (Stanza s : direzioni2stanze.values()) {
+			listaStanzeAdiacenti.add(s);
+		}
+		return listaStanzeAdiacenti;
+	}
+
+	public void setStanzeAdiacenti(Map<Direzione, Stanza> stanzeAdiacenti) {
+		this.direzioni2stanze = stanzeAdiacenti;
+	}
+
+	public int getNumeroStanzeAdiacenti() {
+		return numeroStanzeAdiacenti;
+	}
+
+	public void setNumeroStanzeAdiacenti(int numeroStanzeAdiacenti) {
+		this.numeroStanzeAdiacenti = numeroStanzeAdiacenti;
+	}
+/*
+	public int getNumeroAttrezziPossibili() {
+		return NUMERO_MASSIMO_ATTREZZI-this.numeroAttrezzi;
+	}
+*/
+	
 	/**
 	 * Imposta una stanza adiacente.
 	 *
 	 * @param direzione direzione in cui sara' posta la stanza adiacente.
 	 * @param stanza stanza adiacente nella direzione indicata dal primo parametro.
 	 */
-	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
-		this.stanzeAdiacenti.put(direzione, stanza);
+	public void impostaStanzaAdiacente(Direzione direzione, Stanza stanza) {
+		this.direzioni2stanze.put(direzione, stanza);
 	}
+	
+
 	/**
 	 * Restituisce la stanza adiacente nella direzione specificata
 	 * @param direzione
 	 */
-	public Stanza getStanzaAdiacente(String direzione) {
-		return this.stanzeAdiacenti.get(direzione);
+	public Stanza getStanzaAdiacente(Direzione direzione) {
+		return direzioni2stanze.get(direzione);
 	}
-	
+
 	/**
 	 * Restituisce la nome della stanza.
 	 * @return il nome della stanza
@@ -75,8 +113,12 @@ public class Stanza {
 	 * era generico (capire meglio perchè ho dovuto 
 	 * togliere collection e mettere Map<String, Attrezzo>
 	 */
+	/*
 	public  Map<String, Attrezzo> getAttrezzi() {
 		return this.attrezzi;
+	}*/
+	public List<Attrezzo> getAttrezzi() {
+		return new ArrayList<>(this.attrezzi.values());
 	}
 	/**
 	 * Mette un attrezzo nella stanza.
@@ -85,13 +127,12 @@ public class Stanza {
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if (attrezzo != null) {
-			if (this.attrezzi.size() < NUMERO_MASSIMO_ATTREZZI) {
-				this.attrezzi.put(attrezzo.getNome(), attrezzo);
-				return true;
-			}
+			this.attrezzi.put(attrezzo.getNome(), attrezzo); //la put sovrascrive
+			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * Restituisce una rappresentazione stringa di questa stanza,
 	 * stampandone la descrizione, le uscite e gli eventuali attrezzi contenuti
@@ -101,8 +142,8 @@ public class Stanza {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append(this.nome);
 		risultato.append("\nUscite: ");
-		for (String direzione : this.getDirezioni())
-				risultato.append(" " + direzione);
+		for (Direzione direzione : this.getDirezioni())
+			risultato.append(" " + direzione);
 		risultato.append("\nAttrezzi nella stanza: ");
 		/* ho modificato qui perchè prima avevo fatto
 		 * for(Attrezzo attrezzo : this.getAttrezzi()){
@@ -112,8 +153,8 @@ public class Stanza {
 		return this.attrezzi; dovevo cambiare anche questo for
 	}
 		 */
-		for (String nomeAttrezzo : this.getAttrezzi().keySet()) {
-			Attrezzo attrezzo=this.getAttrezzi().get(nomeAttrezzo);
+		for (String nomeAttrezzo : this.attrezzi.keySet()) {
+			Attrezzo attrezzo=this.attrezzi.get(nomeAttrezzo);
 			if(attrezzo!=null)
 				risultato.append(attrezzo.toString()+" ");
 		}
@@ -125,7 +166,7 @@ public class Stanza {
 	 */
 	public boolean hasAttrezzo(String nomeAttrezzo) {
 		return this.attrezzi.containsKey(nomeAttrezzo);
-	
+
 	}
 	/**
 	 * Restituisce l'attrezzo nomeAttrezzo se presente nella stanza.
@@ -144,18 +185,39 @@ public class Stanza {
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
 		//verifico che ci sia
 		if(attrezzo != null)
-		return this.attrezzi.remove(attrezzo.getNome()) != null;
+			return this.attrezzi.remove(attrezzo.getNome()) != null;
 		return false;
 	}
-	public  Set<String> getDirezioni() {
-		return this.stanzeAdiacenti.keySet();
+	public  List<Direzione> getDirezioni() {
+		return new ArrayList<>(direzioni2stanze.keySet());
 	}
-	
+
 	/* questo ritorna la mappa delle stanze adiacenti */
-	public Map<String,Stanza> getMapStanzeAdiacenti() {
-		return this.stanzeAdiacenti;
+	public Map<Direzione,Stanza> getMapStanzeAdiacenti() {
+		return this.direzioni2stanze;
+	}
+
+
+	public void setPersonaggio(AbstractPersonaggio personaggio) {
+		this.personaggio = personaggio;
+	}
+	public AbstractPersonaggio getPersonaggio() {
+		return this.personaggio;
 	}
 	
+	/* i package vanno creati sempre con le lettere minuscole sennò dà errore
+	 * invece le classi vanno create sempre con le lettere maiuscole sennò dà errore
+	 */
+	
+	/* l'ho aggiunto perchè quando ho copiato da notion il metodo agisci per la classe
+	 * strega, su notion c'era sto metodo e io qui in stanza ancora non ce lo avevo
+	 */
+	public int getNumeroAttrezzi() {
+		return numeroAttrezzi;
+	}
+
+
+
 }
 
 

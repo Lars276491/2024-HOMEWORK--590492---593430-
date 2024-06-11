@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.uniroma3.diadia.ambienti.*;
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
 import it.uniroma3.diadia.giocatore.*;
 
 public class PartitaTest {
@@ -20,7 +21,7 @@ public class PartitaTest {
 				.addStanzaIniziale("Atrio")
 				.addAttrezzo("martello", 3)
 				.addStanzaVincente("Biblioteca")
-				.addAdiacenza("Atrio", "Biblioteca", "nord")
+				.addAdiacenza("Atrio", "Biblioteca", Direzione.nord)
 				.getLabirinto();
 		 p = new Partita(l);
 		 s = new Stanza("Stanza");
