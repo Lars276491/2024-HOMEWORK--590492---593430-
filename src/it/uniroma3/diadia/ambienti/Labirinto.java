@@ -12,7 +12,7 @@ import it.uniroma3.diadia.personaggi.Strega;
 /**
  * Questa classe modella un labirinto
  * 
- * @author 589489 e 589300
+ * @author 590492 e 593430
  * @see Stanza
  * @version v1.0
  */
