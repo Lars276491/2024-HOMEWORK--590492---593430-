@@ -1,55 +1,36 @@
 package it.uniroma3.diadia;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class IOSimulator implements IO {
 
-	private List<String> righeLette;
-	private int indiceRigheLette;
+	private int numeroRighelette;
+	private List<String> sequenzaComandi;
 
-	public List<String> getMessaggiProdotti() {
-		return messaggiProdotti;
+	public IOSimulator(List<String> sequenzaComandi) {
+		this.numeroRighelette = 0;
+		this.sequenzaComandi = new ArrayList<>(sequenzaComandi);
 	}
 
-	public void setMessaggiProdotti(List<String> messaggiProdotti) {
-		this.messaggiProdotti = messaggiProdotti;
-	}
-
-	private List<String> messaggiProdotti;
-	private int indiceMessaggiProdotti;
-	private int indiceMessaggiMostrati;
-
-	public IOSimulator(List<String> righeDaLeggere) {
-		this.righeLette = righeDaLeggere;
-		this.indiceRigheLette = 0;
-		this.indiceMessaggiMostrati = 0;
-		this.messaggiProdotti = new ArrayList<String>();
+	@Override
+	public void mostraMessaggio(String messaggio) {
+		System.out.println(messaggio);
 	}
 
 	@Override
 	public String leggiRiga() {
-		String riga = null;
+		if(this.sequenzaComandi.isEmpty()) {
+			this.mostraMessaggio("Lista comandi vuota");
+			return "fine";
+		}
+		if (this.numeroRighelette == this.sequenzaComandi.size()) {
+			this.mostraMessaggio("Superati numero di comandi automatici");
+			return "fine";
+		}else
+			this.mostraMessaggio(this.sequenzaComandi.get(numeroRighelette));
+		return this.sequenzaComandi.get(numeroRighelette++);
 
-		riga = this.righeLette.get(indiceRigheLette);
-		this.indiceRigheLette++;
-		return riga;
-	}
-
-	@Override
-	public void mostraMessaggio(String msg) {
-		this.messaggiProdotti.add(this.indiceMessaggiProdotti, msg);
-		this.indiceMessaggiProdotti++;
-	}
-
-	public String nextMessaggio() {
-		String next = this.messaggiProdotti.get(indiceMessaggiMostrati);
-		this.indiceMessaggiMostrati++;
-		return next;
-	}
-
-	public boolean hasNextMessaggio() {
-		return this.indiceMessaggiMostrati < this.indiceMessaggiProdotti;
 	}
 
 }

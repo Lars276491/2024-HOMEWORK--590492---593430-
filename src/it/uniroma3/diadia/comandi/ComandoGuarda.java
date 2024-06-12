@@ -1,34 +1,31 @@
 package it.uniroma3.diadia.comandi;
 
+import java.util.List;
+import java.util.SortedSet;
+
+import it.uniroma3.diadia.IO;
+import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-public class ComandoGuarda implements Comando{
+public class ComandoGuarda extends AbstractComando{
 
-	private String parametro;
+	public ComandoGuarda() {
+		super(null);
+	}
 
 	@Override
-	public void esegui(Partita partita) {
-		System.out.println(partita.getGiocatore().getBorsa().toString());
-		System.out.println(partita.getStanzaCorrente().toString());
+	public void esegui(Partita partita, IO io) {
+		StringBuilder s = new StringBuilder();
+		s.append(partita.getGiocatore().getCfu());
+		io.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
+		io.mostraMessaggio(partita.getGiocatore().getBorsa().toString());
+		io.mostraMessaggio(s.toString());
 	}
 
 	@Override
 	public String getNome() {
-		return "guarda";
+		return "Comando guarda";
 	}
 
-	@Override
-	public String getParametro() {
-		return this.parametro;
-	}
-
-	@Override
-	public boolean sconosciuto() {
-		return false;
-	}
-
-	@Override
-	public void setParametro(String parametro) {
-		this.parametro = parametro;
-	}
 }

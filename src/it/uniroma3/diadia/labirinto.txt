@@ -1,0 +1,10 @@
+Stanze: biblioteca, N10, N11
+Stanze bloccate: prigione nord chiave
+Stanze buie: cantina lampada
+Stanze magiche: 
+Inizio: N10
+Vincente: N11
+Attrezzi: martello 10 biblioteca, pinza 2 N10
+Uscite: biblioteca nord N10, N10 sud biblioteca, biblioteca sud N11
+Personaggi: Mago Merlino bastone 2 N10
+Presentazioni: Ciao sono il mago Merlino e' un piacere fare la tua conoscenza

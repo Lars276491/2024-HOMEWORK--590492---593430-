@@ -5,32 +5,44 @@ import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-public class ComandoPrendi implements Comando{
+public class ComandoPrendi implements Comando {
+
 	private String nomeAttrezzo;
 
 	public ComandoPrendi(String parametro) {
-		this.nomeAttrezzo=parametro;
+		this.nomeAttrezzo = parametro;
 	}
 
-	IO io = new IOConsole();	
-
+	public ComandoPrendi() {
+		this(null);
+	}
+	
+	/**
+	 * Comando prendi
+	 * 
+	 * @param partita
+	 */
 	@Override
-	public void esegui(Partita partita) {
-		if(nomeAttrezzo==null)
-			io.mostraMessaggio("Che attrezzo vuoi prendere");
-		Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(nomeAttrezzo);
-
-		if(!partita.getGiocatore().getBorsa().addAttrezzo(attrezzo)) 
-			io.mostraMessaggio("Impossibile prendere attrezzo");
+	public void esegui(Partita partita, IO io) {
+		if (this.nomeAttrezzo == null)
+			io.mostraMessaggio("Che attrezzo vuoi prendere?");
+		if (partita.getStanzaCorrente().hasAttrezzo(this.nomeAttrezzo) != true)
+			io.mostraMessaggio("Attrezzo non è presente nella stanza");
 		else {
-			partita.getStanzaCorrente().removeAttrezzo(attrezzo);
-			io.mostraMessaggio("L'attrezzo è stato aggiunto alla borsa");
+			Attrezzo attrezzo = partita.getStanzaCorrente().getAttrezzo(this.nomeAttrezzo);
+			if (partita.getGiocatore().getBorsa().addAttrezzo(attrezzo)) {
+				partita.getStanzaCorrente().removeAttrezzo(attrezzo);
+				io.mostraMessaggio("Hai preso l'oggetto dalla stanza e inserito nella borsa");
+			} else {
+				io.mostraMessaggio("La borsa non può contenere questo attrezzo se no è troppo pesante");
+			}
 		}
 	}
 
 	@Override
-	public String getNome() {
-		return "Comando prendi";
+	public void setParametro(String parametro) {
+		this.nomeAttrezzo = parametro;
+
 	}
 
 	@Override
@@ -39,12 +51,8 @@ public class ComandoPrendi implements Comando{
 	}
 
 	@Override
-	public boolean sconosciuto() {
-		return this.nomeAttrezzo == null || this.nomeAttrezzo.trim().isEmpty();
+	public String getNome() {
+		return "Comando prendi";
 	}
 
-	@Override
-	public void setParametro(String parametro) {
-		this.nomeAttrezzo = parametro;
-	}
 }

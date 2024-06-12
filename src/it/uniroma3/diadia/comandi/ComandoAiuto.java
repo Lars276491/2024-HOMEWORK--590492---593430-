@@ -1,19 +1,31 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.IO; 
-import it.uniroma3.diadia.IOConsole; 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
 
-public class ComandoAiuto implements Comando{
+public class ComandoAiuto extends AbstractComando{
 	
-	IO io= new IOConsole();
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa", "guarda"};
+	static final private String[] elencoComandi = { "vai", "prendi", "posa", "aiuto", "guarda", "interagisci", "saluta", "regala", "fine" };
+	
+	public ComandoAiuto() {
+		super(null);
+	}
 
-	
+	/**
+	 * Stampa informazioni di aiuto.
+	 */
 	@Override
-	public void esegui(Partita partita) {
-		for(int i=0; i< elencoComandi.length; i++) 
-			io.mostraMessaggio(elencoComandi[i]+" ");
+	public void esegui(Partita partita, IO io) {
+		
+		String str = "";
+		for (int i = 0; i < elencoComandi.length; i++)
+			str = str + elencoComandi[i] + " ";
+		io.mostraMessaggio(str);
+
+		
 	}
 
 	@Override
@@ -21,18 +33,4 @@ public class ComandoAiuto implements Comando{
 		return "Comando aiuto";
 	}
 
-	@Override
-	public String getParametro() {
-		return null;
-	}
-
-	@Override
-	public boolean sconosciuto() {
-		return false; 
-	}
-	
-
-	@Override
-	public void setParametro(String parametro) {
-	}
 }
