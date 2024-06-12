@@ -34,7 +34,7 @@ public class ComandoRegala implements Comando {
     public String getNome() {
         return "regala";
     }
-/* questi sotto li devo leva e mettere extends AbstractComando per caso */
+
     @Override
     public void setParametro(String parametro) {
         this.parametro = parametro;

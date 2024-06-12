@@ -12,11 +12,11 @@ public class AbstractComandoTest {
 
     @Before
     public void setUp() {
-        // Creiamo una sottoclasse concreta di AbstractComando per i test
+        
         comando = new AbstractComando() {
             @Override
             public void esegui(Partita partita) {
-                // Implementazione di prova
+                
             }
 
             @Override

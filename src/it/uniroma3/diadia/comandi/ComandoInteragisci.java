@@ -27,7 +27,7 @@ public class ComandoInteragisci implements Comando {
 	
 	@Override
 	public String getParametro() {
-	    // Questo comando non richiede parametri
+	    
 	    return null;
 	}
 	

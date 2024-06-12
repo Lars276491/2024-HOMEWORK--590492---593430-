@@ -18,7 +18,6 @@ public class StanzaTest {
         attrezzo3 = new Attrezzo("attrezzo3", 3);
     }
     
- // Test per il metodo addAttrezzo
     @Test
     public void testAddAttrezzo() {
         assertTrue(stanza.addAttrezzo(attrezzo1));
@@ -37,7 +36,6 @@ public class StanzaTest {
         assertFalse(stanza.addAttrezzo(null));
     }
     
- // Test per il metodo hasAttrezzo
     @Test
     public void testHasAttrezzo() {
         stanza.addAttrezzo(attrezzo2);
@@ -53,7 +51,7 @@ public class StanzaTest {
     public void testHasAttrezzoNull() {
         assertFalse(stanza.hasAttrezzo(null));
     }
-  // Test per il metodo getAttrezzo
+  
 	@Test
 	public void testGetAttrezzoStanzaVuota() {
 		assertNull(new Stanza("stanza").getAttrezzo("attrezzo"));
@@ -72,19 +70,19 @@ public class StanzaTest {
 		stanza.addAttrezzo(new Attrezzo("attrezzo", 1));
 		assertNull(stanza.getAttrezzo("attrezzoNonPresente"));
 	}
-  //Test per il metodo getStanzaAdiacente
+  
 	@Test
 	public void testGetStanzaAdiacente_StanzaEsistente() {
 	    Stanza stanza1 = new Stanza("stanza1");
 	    Stanza stanza2 = new Stanza("stanza2");
-	    stanza1.impostaStanzaAdiacente(Direzione.nord, stanza2); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
-	    assertEquals(stanza2, stanza1.getStanzaAdiacente(Direzione.nord)); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
+	    stanza1.impostaStanzaAdiacente(Direzione.nord, stanza2); 
+	    assertEquals(stanza2, stanza1.getStanzaAdiacente(Direzione.nord)); 
 	}
 	
 	@Test
 	public void testGetStanzaAdiacente_StanzaNonEsistente() {
 	    Stanza stanza = new Stanza("stanza");
-	    assertNull(stanza.getStanzaAdiacente(Direzione.nord)); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
+	    assertNull(stanza.getStanzaAdiacente(Direzione.nord)); 
 	}
 	
 	

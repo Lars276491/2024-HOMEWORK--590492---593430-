@@ -18,7 +18,7 @@ public class LabirintoBuilder {
 	private Map<String, Stanza> mappaStanze;
 	
 	public LabirintoBuilder(String labirinto) throws FileNotFoundException, FormatoFileNonValidoException {
-		this.labirinto = new Labirinto();
+		this.labirinto = new Labirinto("labirinto");
 		this.mappaStanze = new HashMap<>();
 	}
 	
@@ -68,24 +68,9 @@ public class LabirintoBuilder {
 		ultimaStanzaAggiunta=s;
 		return this;
 	}	
-	
-//	public LabirintoBuilder addPersonaggio(String nome, String presentazione) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-	//			AbstractPersonaggio p = null;
-	//
-	//			StringBuilder nomeClasse
-	//			= new StringBuilder("it.uniroma3.diadia.personaggi.");
-	//			nomeClasse.append( nome.substring(1) ) ;
-	//			p = (AbstractPersonaggio)Class.forName(nomeClasse.toString()).newInstance();
-	//			p.setNome(nome);
-	//			p.setPresentazione(presentazione);
-	//			if(this.ultimaStanzaAggiunta==null)
-	//				return this;
-	//			this.ultimaStanzaAggiunta.setPersonaggio(p);
-	//			return this;
-	//		}
 
 	public LabirintoBuilder addAttrezzo(String nomeAttrezzo, int peso) {
-		ultimaStanzaAggiunta.addAttrezzo(new Attrezzo(nomeAttrezzo,peso));//qua devo mettere ultimaStanzaAggiunta
+		ultimaStanzaAggiunta.addAttrezzo(new Attrezzo(nomeAttrezzo,peso));
 		return this;
 	}
 
@@ -140,7 +125,7 @@ public class LabirintoBuilder {
 
 	public LabirintoBuilder addStanzaBloccata(String nomeStanza, Direzione direzioneBloccata, String attrezzoSbloccante) {
 		StanzaBloccata stanzaBloccata = new StanzaBloccata(nomeStanza, direzioneBloccata, attrezzoSbloccante);
-		mappaStanze.put(nomeStanza,stanzaBloccata);//nelle parentesi che ce devo mette?
+		mappaStanze.put(nomeStanza,stanzaBloccata);
 		ultimaStanzaAggiunta=stanzaBloccata;
 		return this;
 	}

@@ -38,6 +38,6 @@ public abstract class AbstractPersonaggio {
 		return this.getNome();
 	}
 	
-	public abstract String riceviRegalo(Attrezzo attrezzo, Partita partita); //ci devo mettere abstract qui vero? perchè sulle slides dice di mettere questo metodo astratto
+	public abstract String riceviRegalo(Attrezzo attrezzo, Partita partita); 
 }
 

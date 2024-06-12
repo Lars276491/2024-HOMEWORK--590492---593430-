@@ -21,12 +21,9 @@ public class Labirinto {
 
 	private Stanza stanzaIniziale;
 	private Stanza stanzaVincente;
-	/*
-	private Stanza stanzaCorrente;
-	private Stanza ultimaStanzaAggiunta;*/
 
 
-	private Labirinto(String labirinto) throws FileNotFoundException, FormatoFileNonValidoException {
+	public Labirinto(String labirinto) throws FileNotFoundException, FormatoFileNonValidoException {
 		CaricatoreLabirinto c;
 		try{
 			c=new CaricatoreLabirinto(labirinto);
@@ -90,33 +87,22 @@ public class Labirinto {
 	}*/
 
 /*
-	public Stanza getStanzaIniziale() {
-		return this.stanzaIniziale;
-	}*/
-
 	public static LabirintoBuilder newBuilder(String labirinto) throws FileNotFoundException, FormatoFileNonValidoException {
 		return new LabirintoBuilder(labirinto);
-	}
-	
+	}*/
+
+
 	public Stanza getStanzaVincente() {
 		return stanzaVincente;
 	}
-/*
-	public void setStanzaIniziale(Stanza stanzaIniziale) {
-		this.stanzaIniziale = stanzaIniziale;
-	}*/
 
 	public void setStanzaVincente(Stanza stanzaVincente) {
 		this.stanzaVincente = stanzaVincente;
 	}
-	/*forse da cancellare
+	
 	public static LabirintoBuilder newBuilder(String nomeFile) throws FileNotFoundException, FormatoFileNonValidoException {
 		return new LabirintoBuilder(nomeFile);
 	}
-	
-	public static LabirintoBuilder newBuilder() {
-		return new LabirintoBuilder();
-	}*/
 
 	public void setStanzaCorrente(Stanza stanzaCorrente) {
 		this.stanzaIniziale = stanzaCorrente;
@@ -185,21 +171,6 @@ public class Labirinto {
 			ultimaStanzaAggiunta=s;
 			return this;
 		}	
-		
-//		public LabirintoBuilder addPersonaggio(String nome, String presentazione) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		//			AbstractPersonaggio p = null;
-		//
-		//			StringBuilder nomeClasse
-		//			= new StringBuilder("it.uniroma3.diadia.personaggi.");
-		//			nomeClasse.append( nome.substring(1) ) ;
-		//			p = (AbstractPersonaggio)Class.forName(nomeClasse.toString()).newInstance();
-		//			p.setNome(nome);
-		//			p.setPresentazione(presentazione);
-		//			if(this.ultimaStanzaAggiunta==null)
-		//				return this;
-		//			this.ultimaStanzaAggiunta.setPersonaggio(p);
-		//			return this;
-		//		}
 
 		public LabirintoBuilder addAttrezzo(String nomeAttrezzo, int peso) {
 			ultimaStanzaAggiunta.addAttrezzo(new Attrezzo(nomeAttrezzo,peso));//qua devo mettere ultimaStanzaAggiunta

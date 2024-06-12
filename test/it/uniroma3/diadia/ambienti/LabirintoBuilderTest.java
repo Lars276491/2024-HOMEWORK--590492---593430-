@@ -21,7 +21,7 @@ public class LabirintoBuilderTest {
 
 	@Before
 	public void setUp() throws Exception {
-		labirintoBuilder = new LabirintoBuilder();
+		labirintoBuilder = new LabirintoBuilder("labirinto");
 	}
 
 	@Test
@@ -194,7 +194,7 @@ public class LabirintoBuilderTest {
 	}
 	
 	
-	@Test  //verifico che gli attrezzi vengano aggiunti all'ultima stanza aggiunta
+	@Test  
 	public void testAggiuntaAttrezzoAStanze_AttrezzoAggiuntoAllaSecondaStanza() {
 		String nomeAttrezzo1 = "attrezzo 1";
 		String nomeAttrezzo2 = "attrezzo 2";
@@ -230,9 +230,7 @@ public class LabirintoBuilderTest {
 		assertEquals(new Attrezzo(nomeAttrezzo2,peso2),listaStanze.get(nomeStanza2).getAttrezzo(nomeAttrezzo2));
 	}
 	
-	/* mettere assertTrue ma non funziona perchè bisogna aggiungere 
-	 * 
-	 */
+	
 	@Test
 	public void testLabirintoConStanzaMagica() {
 		int sogliaMagica = 1;

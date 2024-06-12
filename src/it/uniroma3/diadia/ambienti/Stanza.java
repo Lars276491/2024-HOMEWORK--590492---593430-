@@ -18,14 +18,12 @@ import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
  * @version base
  */
 public class Stanza {
-	//	static final private int NUMERO_MASSIMO_ATTREZZI = 10; da togliere perchè riguarda ancora gli array, ma poi siamo passati alle liste e quindi questo va tolto
+	//	static final private int NUMERO_MASSIMO_ATTREZZI = 10; 
 
 	private String nome;
 	private Map<String,Attrezzo> attrezzi;    
 	private int numeroAttrezzi;
 
-	
-	/* presi da notion */
 	private Map<Direzione, Stanza> direzioni2stanze;
 	private int numeroStanzeAdiacenti;
 	private AbstractPersonaggio personaggio;
@@ -37,11 +35,11 @@ public class Stanza {
 	 */
 	public Stanza(String nome) {
 		this.nome = nome;
-		this.numeroStanzeAdiacenti = 0; //da notion
+		this.numeroStanzeAdiacenti = 0; 
 		this.numeroAttrezzi = 0;
 		
-		this.attrezzi = new HashMap<>(); // notion non lo mette
-		this.direzioni2stanze = new HashMap<>(); //da notion
+		this.attrezzi = new HashMap<>(); 
+		this.direzioni2stanze = new HashMap<>(); 
 
 	}
 	
@@ -78,7 +76,7 @@ public class Stanza {
 	 */
 	public void impostaStanzaAdiacente(Direzione direzione, Stanza stanza) {
 		this.direzioni2stanze.put(direzione, stanza);
-	}//da confrontare con notion
+	}
 	
 	/**
 	 * Restituisce la stanza adiacente nella direzione specificata
@@ -107,15 +105,7 @@ public class Stanza {
 	 * @return 
 	 * @return la collezione di attrezzi nella stanza.
 	 */
-	/* qui ho cambiato Collection<Attrezzi> con
-	 * Map<String, Attrezzo> perchè con collection
-	 * era generico (capire meglio perchè ho dovuto 
-	 * togliere collection e mettere Map<String, Attrezzo>
-	 */
-	/*
-	public  Map<String, Attrezzo> getAttrezzi() {
-		return this.attrezzi;
-	}*/
+	
 	public List<Attrezzo> getAttrezzi() {
 		return new ArrayList<>(this.attrezzi.values());
 	}
@@ -144,14 +134,7 @@ public class Stanza {
 		for (Direzione direzione : this.getDirezioni())
 			risultato.append(" " + direzione);
 		risultato.append("\nAttrezzi nella stanza: ");
-		/* ho modificato qui perchè prima avevo fatto
-		 * for(Attrezzo attrezzo : this.getAttrezzi()){
-		 * 		if(attrezzo!=null)
-					risultato.append(attrezzo.toString()+" ");
-		   } e avendo cambiato sopra con public Map<String, Attrezzo> getAttrezzi() {
-		return this.attrezzi; dovevo cambiare anche questo for
-	}
-		 */
+		
 		for (String nomeAttrezzo : this.attrezzi.keySet()) {
 			Attrezzo attrezzo=this.attrezzi.get(nomeAttrezzo);
 			if(attrezzo!=null)
@@ -182,7 +165,7 @@ public class Stanza {
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
-		//verifico che ci sia
+		
 		if(attrezzo != null)
 			return this.attrezzi.remove(attrezzo.getNome()) != null;
 		return false;
@@ -191,7 +174,6 @@ public class Stanza {
 		return new ArrayList<>(direzioni2stanze.keySet());
 	}
 
-	/* questo ritorna la mappa delle stanze adiacenti */
 	public Map<Direzione,Stanza> getMapStanzeAdiacenti() {
 		return this.direzioni2stanze;
 	}
@@ -204,10 +186,6 @@ public class Stanza {
 		return this.personaggio;
 	}
 	
-	
-	/* l'ho aggiunto perchè quando ho copiato da notion il metodo agisci per la classe
-	 * strega, su notion c'era sto metodo e io qui in stanza ancora non ce lo avevo
-	 */
 	public int getNumeroAttrezzi() {
 		return numeroAttrezzi;
 	}

@@ -26,12 +26,12 @@ public class ComandoSaluta implements Comando {
 
     @Override
     public void setParametro(String parametro) {
-        // Questo comando non richiede parametri
+        
     }
 
     @Override
     public String getParametro() {
-        // Questo comando non richiede parametri
+        
         return null;
     }
 }

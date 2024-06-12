@@ -15,22 +15,22 @@ public class StanzaBloccataTest {
 	
 	@Before
 	public void setUp() {
-		sb = new StanzaBloccata("StanzaBloccata", Direzione.ovest, "piedediporco"); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
+		sb = new StanzaBloccata("StanzaBloccata", Direzione.ovest, "piedediporco"); 
 		s = new Stanza("Stanzetta");
 		a = new Attrezzo("piedediporco", 1);
-		sb.impostaStanzaAdiacente(Direzione.ovest, s); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
+		sb.impostaStanzaAdiacente(Direzione.ovest, s); 
 		
 	}
 
 	@Test
 	public void testGetStanzaAdiacenteDirezioneBloccata() {
-		assertEquals(sb, sb.getStanzaAdiacente(Direzione.ovest)); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
+		assertEquals(sb, sb.getStanzaAdiacente(Direzione.ovest)); 
 	}
 	
 	@Test
 	public void testGetStanzaAdiacenteDirezioneSbloccata() {
 		sb.addAttrezzo(a);
-		assertEquals(s, sb.getStanzaAdiacente(Direzione.ovest)); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
+		assertEquals(s, sb.getStanzaAdiacente(Direzione.ovest)); 
 		
 	}
 

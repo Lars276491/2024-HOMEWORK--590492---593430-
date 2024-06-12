@@ -28,7 +28,7 @@ public class Mago extends AbstractPersonaggio {
 		return msg;
 
 	}
-/* da notion */
+
 	@Override
 	public String riceviRegalo(Attrezzo attrezzo, Partita partita) {
 		StringBuilder risposta = new StringBuilder("Grazie per avermi regalato ");
@@ -39,13 +39,3 @@ public class Mago extends AbstractPersonaggio {
 		return risposta.toString();
 	}
 }
-
-/* quello fatto con bing
-@Override
-public String riceviRegalo(Attrezzo attrezzo, Partita partita) {
-	// Poiché non possiamo modificare il peso, il mago potrebbe semplicemente accettare l'attrezzo
-	String messaggio = getNome() + " accetta " + attrezzo.getNome() + " e con un gesto magico lo fa levitare prima di lasciarlo cadere nella stanza.";
-	// Aggiungi l'attrezzo alla stanza corrente
-	partita.getStanzaCorrente().addAttrezzo(attrezzo);
-	return messaggio;
-}*/

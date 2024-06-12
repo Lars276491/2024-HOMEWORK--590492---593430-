@@ -14,7 +14,7 @@ public class LabirintoTest {
 	
 	@Before
 	public void setUp() {
-		l = new LabirintoBuilder()
+		l = new LabirintoBuilder("labirinto")
 				.addStanzaIniziale("Atrio")
 				.addAttrezzo("martello", 3)
 				.addStanzaVincente("Biblioteca")

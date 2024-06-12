@@ -41,8 +41,5 @@ public class StanzaMagicaTest {
 		assertTrue(s1.addAttrezzo(v));
 		assertTrue(s1.addAttrezzo(m));
 
-		//assertEquals("olletram",m.getNome());	
-		//assertEquals(84,m.getPeso());	
-
 		}
 }

@@ -59,7 +59,6 @@ public class CaricatoreLabirinto {
 
 	 */
 	private BufferedReader reader;
-//	private LineNumberReader reader; //è la stessa cosa che sta su notion solo con un nome diverso ve?
 
 	private Map<String, Stanza> nome2stanza;
 
@@ -72,7 +71,6 @@ public class CaricatoreLabirinto {
 		this.reader = new LineNumberReader(new FileReader(nomeFile));
 	}
 	
-	/* */
 	public CaricatoreLabirinto(StringReader reader) throws FileNotFoundException {
 		this.nome2stanza = new HashMap<String,Stanza>();
 		this.reader = new LineNumberReader(reader);
@@ -136,7 +134,7 @@ public class CaricatoreLabirinto {
 					
 					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("la  stanza "+ specifica+" non esiste\n"));
 					String nomeStanza = scannerDiLinea.next();
-					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("vi Ã¨ stato qualche problema nella creazione dell'attrezzo per vedere la stanza "+specifica+"\n"));
+					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("c'è stato qualche problema nella creazione dell'attrezzo per vedere la stanza "+specifica+"\n"));
 					String attrezzoPerVedere = scannerDiLinea.next();
 
 					Stanza stanza = new StanzaBuia(nomeStanza, attrezzoPerVedere);
@@ -158,7 +156,7 @@ public class CaricatoreLabirinto {
 					String nomeStanza = scannerDiLinea.next();
 					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("la  direzione della stanza"+ specifica+" non esiste\n"));
 					Direzione direzione = Direzione.valueOf(scannerDiLinea.next());
-					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("vi Ã¨ stato qualche problema nella creazione dell'attrezzo per sbloccare la stanza "+specifica+"\n"));
+					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("c'è stato qualche problema nella creazione dell'attrezzo per sbloccare la stanza "+specifica+"\n"));
 					String attrezzoSbloccante = scannerDiLinea.next();
 
 					Stanza stanza = new StanzaBloccata(nomeStanza, direzione, attrezzoSbloccante);
@@ -181,7 +179,7 @@ public class CaricatoreLabirinto {
 					String mago = scannerDiLinea.next();
 					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("specifica la presentazione del mago\n"));
 					String presentazione = scannerDiLinea.next();					
-					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("vi Ã¨ stato qualche problema nella creazione dell'attrezzo per il mago della stanza "+specifica+"\n"));
+					check(scannerDiLinea.hasNext(),msgTerminazionePrecoce("c'è stato qualche problema nella creazione dell'attrezzo per il mago della stanza "+specifica+"\n"));
 					String attrezzo = scannerDiLinea.next();
 
 					AbstractPersonaggio personaggio = new Mago(mago, presentazione, new Attrezzo(attrezzo, 4));
@@ -235,7 +233,7 @@ public class CaricatoreLabirinto {
 		} 
 	}
 
-	/* questo metodo ora è corretto */
+
 	private List<String> separaStringheAlleVirgole(String string) {
 		List<String> result = new LinkedList<>();
 		Scanner scanner = new Scanner(string);

@@ -2,7 +2,7 @@ package it.uniroma3.diadia.fixture;
 
 import java.util.List;
 
-import it.uniroma3.diadia.comandi.DiaDia;
+import it.uniroma3.diadia.DiaDia;
 import it.uniroma3.diadia.IOSimulator;
 import it.uniroma3.diadia.ambienti.Direzione;
 import it.uniroma3.diadia.ambienti.Labirinto;
@@ -14,7 +14,7 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
 public class Fixture {
 	public static IOSimulator creaSimulazionePartitaEGiocaEasy(List<String> comandiDaLeggere) {
 		IOSimulator io = new IOSimulator(comandiDaLeggere);
-		Labirinto labirinto = new LabirintoBuilder()
+		Labirinto labirinto = new LabirintoBuilder("labirinto")
 				.addStanzaIniziale("Atrio")
 				.addAttrezzo("martello", 3)
 				.addStanzaVincente("Biblioteca")
@@ -28,7 +28,7 @@ public class Fixture {
 
 	public static IOSimulator creaSimulazionePartitaEGiocaHard(List<String> comandiDaLeggere) {
 		IOSimulator io = new IOSimulator(comandiDaLeggere);
-		Labirinto labirinto = new LabirintoBuilder()
+		Labirinto labirinto = new LabirintoBuilder("labirinto")
 				.addStanzaIniziale("Atrio")
 				.addAttrezzo("martello", 3)
 				.addStanzaVincente("Biblioteca")
@@ -48,7 +48,7 @@ public class Fixture {
 
 	public static IOSimulator creaSimulazionePartitaEGiocaMonolocale(List<String> comandiDaLeggere) {
 		IOSimulator io = new IOSimulator(comandiDaLeggere);
-		Labirinto monolocale = new LabirintoBuilder()
+		Labirinto monolocale = new LabirintoBuilder("labirinto")
 				.addStanzaIniziale("salotto") 
 				.addStanzaVincente("salotto") 
 				.getLabirinto();
@@ -60,11 +60,11 @@ public class Fixture {
 	
 	public static IOSimulator creaSimulazionePartitaEGiocaBilocale(List<String> comandiDaLeggere) {
 		IOSimulator io = new IOSimulator(comandiDaLeggere);
-		Labirinto bilocale = new LabirintoBuilder()
+		Labirinto bilocale = new LabirintoBuilder("labirinto")
 				.addStanzaIniziale("salotto")
 				.addStanzaVincente("camera")
-				.addAttrezzo("letto",10) // dove? fa riferimento allâ€™ultima stanza aggiunta
-				.addAdiacenza("salotto", "camera", Direzione.nord) // camera si trova a nord di salotto
+				.addAttrezzo("letto",10) 
+				.addAdiacenza("salotto", "camera", Direzione.nord) 
 				.getLabirinto();
 		DiaDia gioco = new DiaDia(bilocale, io);
 		gioco.gioca();
@@ -73,10 +73,10 @@ public class Fixture {
 	
 	public static IOSimulator creaSimulazionePartitaEGiocaTrilocale(List<String> comandiDaLeggere) {
 		IOSimulator io = new IOSimulator(comandiDaLeggere);
-		Labirinto trilocale = new LabirintoBuilder()
+		Labirinto trilocale = new LabirintoBuilder("labirinto")
 				.addStanzaIniziale("salotto")
 				.addStanza("cucina")
-				.addAttrezzo("pentola",1) // dove? fa riferimento allâ€™ultima stanza aggiunta
+				.addAttrezzo("pentola",1) 
 				.addStanzaVincente("camera")
 				.addAdiacenza("salotto", "cucina", Direzione.nord)
 				.addAdiacenza("cucina", "camera", Direzione.est)

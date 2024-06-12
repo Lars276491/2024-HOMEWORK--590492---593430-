@@ -37,7 +37,7 @@ public class FabbricaDiComandiFisarmonica {
 			comando = new ComandoGuarda();
 		else comando = new ComandoNonValido();
 		comando.setParametro(parametro);
-	//	comando.setIo(this.io);
+	
 		return comando;
 		//scannerDiParole.close();
 	}

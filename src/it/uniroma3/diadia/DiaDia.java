@@ -182,34 +182,12 @@ public class DiaDia {
 	//	}
 
 	public static void main(String[] argc) throws Exception {
-	//	Scanner scanner = new Scanner(System.in);
-		IO console = new IOConsole(/*scanner*/);
-//		List pippo = new ArrayList();
-//		pippo.add(new Integer(0));
-//		pippo.add(new String("a"));
-//		System.out.println(pippo);
+		IO console = new IOConsole();
 		
 		Labirinto labirinto = Labirinto.newBuilder("file.txt").getLabirinto();
-//										new LabirintoBuilder()
-//										.addStanzaIniziale("Atrio")
-//										.addCane("Rex", "Sono un cane, bau!")
-//										.addAttrezzo("martello", 3)
-//										.addStanzaVincente("Biblioteca")
-//										.addAdiacenza("Atrio", "Biblioteca", "nord")
-//										.addStanza("Bagno")
-//										.addAdiacenza("Atrio", "Bagno", "sud")
-//										.addAdiacenza("Bagno", "Atrio", "nord")
-//										.addStrega("Varana", "Ajo, sono una strega sarda!")
-//										.addStanza("Studio")
-//										.addAttrezzo("pala", 2)
-//										.addAttrezzo("scalpello", 34)
-//										.addAdiacenza("Studio", "Bagno", "sud")
-//										.addAdiacenza("Bagno", "Studio", "nord")
-//										//.addMago("Merlino", "Ciao, sono mago Merlino", new Attrezzo("bacchetta", 3))
-//										.getLabirinto();
 		DiaDia gioco = new DiaDia(console, labirinto);
 		gioco.gioca();
-	//	scanner.close();
+	
 	}
 
 }
