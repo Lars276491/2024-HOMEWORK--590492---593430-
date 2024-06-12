@@ -32,6 +32,10 @@ public class Cane extends AbstractPersonaggio {
     public Cane(String nome, String presentazione, Attrezzo attrezzo, Attrezzo Cibo) {
         super(nome, presentazione);
     }
+    
+    public Cane(String nome, String presentazione) {
+    	super(nome, presentazione);
+    }
 
     @Override
     public String agisci(Partita partita) {

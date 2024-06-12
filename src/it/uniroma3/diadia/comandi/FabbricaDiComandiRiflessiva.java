@@ -58,7 +58,12 @@ public class FabbricaDiComandiRiflessiva implements FabbricaDiComandi {
 		// es. nomeClasse: â€˜it.uniroma3.diadia.comandi.ComandoVâ€™
 		nomeClasse.append( nomeComando.substring(1) ) ;
 		// es. nomeClasse: â€˜it.uniroma3.diadia.comandi.ComandoVaiâ€™
-		comando = (Comando)Class.forName(nomeClasse.toString()).newInstance();
+		try {
+			comando = (Comando)Class.forName(nomeClasse.toString()).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			comando=new ComandoNonValido();
+		}
 		comando.setParametro(parametro);
 	//	comando.setIo(io); notion lo mette per ora commento
 		return comando;

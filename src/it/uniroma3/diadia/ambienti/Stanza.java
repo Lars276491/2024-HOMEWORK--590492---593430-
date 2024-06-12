@@ -78,9 +78,8 @@ public class Stanza {
 	 */
 	public void impostaStanzaAdiacente(Direzione direzione, Stanza stanza) {
 		this.direzioni2stanze.put(direzione, stanza);
-	}
+	}//da confrontare con notion
 	
-
 	/**
 	 * Restituisce la stanza adiacente nella direzione specificata
 	 * @param direzione
@@ -205,9 +204,6 @@ public class Stanza {
 		return this.personaggio;
 	}
 	
-	/* i package vanno creati sempre con le lettere minuscole sennò dà errore
-	 * invece le classi vanno create sempre con le lettere maiuscole sennò dà errore
-	 */
 	
 	/* l'ho aggiunto perchè quando ho copiato da notion il metodo agisci per la classe
 	 * strega, su notion c'era sto metodo e io qui in stanza ancora non ce lo avevo

@@ -31,8 +31,6 @@ public class StanzaMagica extends Stanza {
 		return attrezzo;
 	}
 
-	/* il metodo di test testLabirintoConStanzaMagica_AggiuntaElementoOltreSogliaMagica ora funziona perchè ho aggiunto a questo metodo
-	 * addAttrezzo qui sotto, ho aggiunto = oltre a >, cioè ora ho messo >= prima era solo > e non funzionava*/
 	@Override
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if(this.contatoreAttrezziPosati>=this.sogliaMagica) {
