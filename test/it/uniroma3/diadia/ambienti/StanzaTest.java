@@ -1,112 +1,96 @@
 package it.uniroma3.diadia.ambienti;
-
+import org.junit.Before;
+import it.uniroma3.diadia.attrezzi.*;
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import it.uniroma3.diadia.attrezzi.Attrezzo;
-
-
-
 public class StanzaTest {
+    private Stanza stanza;  
+    private Attrezzo attrezzo1;
+    private Attrezzo attrezzo2;
+    private Attrezzo attrezzo3;
+    
+    @Before
+    public void setUp() {
+        stanza = new Stanza("stanza"); 
+        attrezzo1 = new Attrezzo("attrezzo1", 1);
+        attrezzo2 = new Attrezzo("attrezzo2", 2);
+        attrezzo3 = new Attrezzo("attrezzo3", 3);
+    }
+    
+ // Test per il metodo addAttrezzo
+    @Test
+    public void testAddAttrezzo() {
+        assertTrue(stanza.addAttrezzo(attrezzo1));
+    }
 
-	private final Stanza stanza1 = new Stanza("stanza1");
-	
-	private Stanza stanzaIsolata(String nome) {
-		return new Stanza(nome);
-	}
+    @Test
+    public void testAddAttrezzoStanzaPiena() {
+        for(int i = 0; i < 10; i++) {
+            stanza.addAttrezzo(new Attrezzo("attrezzo" + i, i));
+        }
+        assertFalse(stanza.addAttrezzo(attrezzo3));
+    }
 
-	private Stanza stanzaCollegata(String nome, String direzione, Stanza camera) {
-		Stanza stanza = new Stanza(nome);
-		stanza.impostaStanzaAdiacente(direzione, camera);
-		return stanza;
-	}
-	
-	@Test
-	public void testGetStanzaAdiacenteIsolata() {
-		assertNull(this.stanzaIsolata("Stanza isolata").getStanzaAdiacente("nord"));
-	}
+    @Test
+    public void testAddAttrezzoNull() {
+        assertFalse(stanza.addAttrezzo(null));
+    }
+    
+ // Test per il metodo hasAttrezzo
+    @Test
+    public void testHasAttrezzo() {
+        stanza.addAttrezzo(attrezzo2);
+        assertTrue(stanza.hasAttrezzo("attrezzo2"));
+    }
 
+    @Test
+    public void testHasAttrezzoNonEsistente() {
+        assertFalse(stanza.hasAttrezzo("attrezzoNonEsistente"));
+    }
+
+    @Test
+    public void testHasAttrezzoNull() {
+        assertFalse(stanza.hasAttrezzo(null));
+    }
+  // Test per il metodo getAttrezzo
 	@Test
-	public void testGetStanzaAdiacenteDirezioneCollegata() {
-		assertEquals(this.stanza1, this.stanzaCollegata("stanza2", "nord", stanza1).getStanzaAdiacente("nord"));
-	}
-	
-	@Test 
-	public void testGetStanzaAdiacenteDirezioneScollegata() {
-		assertNull(this.stanzaCollegata("stanza2", "nord", stanza1).getStanzaAdiacente("sud"));
-	}
-	
-	@Test
-	public void testAddAttrezzoNullo() {
-		assertFalse(stanza1.addAttrezzo(null));
-	}
-	
-	@Test
-	public void testAddAttrezzoValido() {
-		assertTrue(stanza1.addAttrezzo(new Attrezzo ("conchiglia", 1)));
+	public void testGetAttrezzoStanzaVuota() {
+		assertNull(new Stanza("stanza").getAttrezzo("attrezzo"));
 	}
 	
 	@Test
-	public void testHasAttrezzoNome() {
-		stanza1.addAttrezzo(new Attrezzo ("conchiglia", 1));
-		assertTrue(stanza1.hasAttrezzo("conchiglia"));
+	public void testGetAttrezzoStanzaAttrezzoPresente() {
+		Stanza stanza = new Stanza("stanza");
+		stanza.addAttrezzo(new Attrezzo("attrezzo", 1));
+		assertNotNull(stanza.getAttrezzo("attrezzo"));
 	}
 	
 	@Test
-	public void testStanzeUguali() {
-		Stanza s1 = new Stanza("salone");
-		Stanza s2 = new Stanza("salone");
-		assertTrue(s1.equals(s2));
+	public void testGetAttrezzoStanzaAttrezzoNonPresente() {
+		Stanza stanza = new Stanza("stanza");
+		stanza.addAttrezzo(new Attrezzo("attrezzo", 1));
+		assertNull(stanza.getAttrezzo("attrezzoNonPresente"));
+	}
+  //Test per il metodo getStanzaAdiacente
+	@Test
+	public void testGetStanzaAdiacente_StanzaEsistente() {
+	    Stanza stanza1 = new Stanza("stanza1");
+	    Stanza stanza2 = new Stanza("stanza2");
+	    stanza1.impostaStanzaAdiacente(Direzione.nord, stanza2); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
+	    assertEquals(stanza2, stanza1.getStanzaAdiacente(Direzione.nord)); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
 	}
 	
 	@Test
-	public void testStanzeDiverse() {
-		Stanza s1 = new Stanza("salone");
-		Stanza s2 = new Stanza("soggiorno");
-		assertFalse(s1.equals(s2));
+	public void testGetStanzaAdiacente_StanzaNonEsistente() {
+	    Stanza stanza = new Stanza("stanza");
+	    assertNull(stanza.getStanzaAdiacente(Direzione.nord)); //c'era "nord" tra parentesi e ora ho messo Direzione.nord
 	}
+	
 	
 	@Test
-	public void testOttieniAttrezzoDallaLista() {
-		Stanza s = new Stanza("cucina");
-		Attrezzo cucchiaio = new Attrezzo("cucchiaio", 1);
-		s.addAttrezzo(cucchiaio);
-		assertEquals(cucchiaio, s.getAttrezzi().get(0));
+	public void testGetStanzaAdiacenteDirezioneNull() {
+	    Stanza stanza = new Stanza("stanza");
+	    assertNull(stanza.getStanzaAdiacente(null));
 	}
-	
-	@Test
-	public void testHasAttrezzoPresente() {
-		Stanza s = new Stanza("cucina");
-		Attrezzo cucchiaio = new Attrezzo("cucchiaio", 1);
-		s.addAttrezzo(cucchiaio);
-		assertTrue(s.hasAttrezzo("cucchiaio"));
-	}
-	
-	@Test
-	public void testHasAttrezzoAssente() {
-		Stanza s = new Stanza("cucina");
-		Attrezzo cucchiaio = new Attrezzo("cucchiaio", 1);
-		s.addAttrezzo(cucchiaio);
-		assertFalse(s.hasAttrezzo("martello"));
-	}
-	
-	@Test
-	public void testRemoveAttrezzoPresente() {
-		Stanza s = new Stanza("cucina");
-		Attrezzo cucchiaio = new Attrezzo("cucchiaio", 1);
-		s.addAttrezzo(cucchiaio);
-		assertTrue(s.removeAttrezzo(new Attrezzo("cucchiaio", 1)));
-	}
-	
-	@Test
-	public void testRemoveAttrezzoAssente() {
-		Stanza s = new Stanza("cucina");
-		Attrezzo cucchiaio = new Attrezzo("cucchiaio", 1);
-		s.addAttrezzo(cucchiaio);
-		assertFalse(s.removeAttrezzo(new Attrezzo("martello", 2)));
-	}
-	
-	
-	
 }

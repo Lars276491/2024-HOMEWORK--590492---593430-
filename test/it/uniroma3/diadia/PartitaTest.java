@@ -1,164 +1,110 @@
 package it.uniroma3.diadia;
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import it.uniroma3.diadia.ambienti.*;
-import it.uniroma3.diadia.attrezzi.Attrezzo;
-
-import static org.junit.Assert.*;
-import org.junit.*;
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
+import it.uniroma3.diadia.giocatore.*;
 
 public class PartitaTest {
+	private Partita p;
+	private Labirinto l;
+	private Giocatore g;
+	private Stanza s;
 
-	@Test
-	public void testGetStanzaCorrenteIniziale() {
-		assertNotNull(new Partita(Labirinto.newBuilder().getLabirinto()).getStanzaCorrente());
-	}
-	
-	@Test
-	public void testGetStanzaCorrenteAggiornata() {
-		Partita partita = new Partita(Labirinto.newBuilder().getLabirinto());
-		Stanza stanza = new Stanza("Magazzino");
-		partita.setStanzaCorrente(stanza);
-		assertEquals(stanza, partita.getStanzaCorrente());
-	}
-	
-	@Test
-	public void testGetStanzaVincente() {
-		assertEquals("Biblioteca", new Partita(Labirinto.newBuilder().getLabirinto()).getLabirinto().getStanzaVincente().getNome());
-	}
 
-	@Test
-	public void testIsNotFinita() {
-		assertFalse(new Partita(Labirinto.newBuilder().getLabirinto()).isFinita());
-	}
-	
-	@Test
-	public void testIsFinita() {
-		Partita partitaFinita = new Partita(Labirinto.newBuilder().getLabirinto());
-		partitaFinita.setFinita();
-		assertTrue(partitaFinita.isFinita());
-	}
-	
-	@Test
-	public void testIsVinta() {
-		String nomeStanzaIniziale = "atrio";
-		Labirinto monolocale = new LabirintoBuilder()
-				.addStanzaIniziale(nomeStanzaIniziale)
-				.addStanzaVincente(nomeStanzaIniziale)
+	@Before
+	public void setUp() {
+		l = new LabirintoBuilder()
+				.addStanzaIniziale("Atrio")
+				.addAttrezzo("martello", 3)
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("Atrio", "Biblioteca", Direzione.nord)
 				.getLabirinto();
-		assertTrue(new Partita(monolocale).vinta());
-	}
-	
+		 p = new Partita(l);
+		 s = new Stanza("Stanza");
 
-	@Test
-	public void testIsNotVinta() {
-		String nomeStanzaIniziale = "atrio";
-		String nomeStanzaVincente = "biblioteca";
-		Labirinto bilocale = new LabirintoBuilder()
-				.addStanzaIniziale(nomeStanzaIniziale)
-				.addStanzaVincente(nomeStanzaVincente )
-				.getLabirinto();
-		assertFalse(new Partita(bilocale).vinta());
+	}
+
+	@Test 
+	public void testPartitaNonFinitaAllInizio() {
+		assertFalse(p.isFinita());
 	}
 
 	@Test
-	public void testPartitaConStanzaBloccata() {
-		String nomeStanzaIniziale = "atrio";
-		String nomeStanzaVincente = "giardino";
-		Labirinto trilocale =new LabirintoBuilder()
-				.addStanzaIniziale(nomeStanzaIniziale )
-				.addAttrezzo("libro antico", 5)
-				.addStanzaBloccata("biblioteca", "est", "libro antico")
-				.addAdiacenza(nomeStanzaIniziale, "biblioteca", "sud")
-				.addAdiacenza("biblioteca", nomeStanzaIniziale, "nord")
-				.addStanzaVincente(nomeStanzaVincente )
-				.addAdiacenza("biblioteca", nomeStanzaVincente, "est")
-				.addAdiacenza(nomeStanzaVincente,"biblioteca" , "ovest")
-				.getLabirinto();
-		Partita p = new Partita(trilocale);
-		assertEquals(new Stanza(nomeStanzaIniziale), p.getStanzaCorrente());
-		/*spostamento in biblioteca*/
-		p.setStanzaCorrente(p.getStanzaCorrente().getStanzaAdiacente("sud"));
-		assertEquals("biblioteca", p.getStanzaCorrente().getNome());
-		/*stanza ad est inacessibile*/
-		assertEquals("biblioteca", p.getStanzaCorrente().getStanzaAdiacente("est").getNome());
+	public void testPartitaFinitaQuandoVinta() {
+		Stanza stanzaVincente = l.getStanzaVincente();
+		p.setStanzaCorrente(stanzaVincente);
+		assertTrue(p.isFinita());
+	}
+
+	@Test
+	public void testPartitaFinitaQuandoZeroCfu() {
+		g.setCfu(0); 
+		assertTrue(p.isFinita());
 	}
 	
 	@Test
-	public void testPartitaConStanzaSbloccata() {
-		String nomeStanzaIniziale = "atrio";
-		String nomeStanzaVincente = "giardino";
-		Labirinto trilocale =new LabirintoBuilder()
-				.addStanzaIniziale(nomeStanzaIniziale )
-				.addAttrezzo("libro antico", 5)
-				.addStanzaBloccata("biblioteca", "est", "libro antico")
-				.addAdiacenza(nomeStanzaIniziale, "biblioteca", "sud")
-				.addAdiacenza("biblioteca", nomeStanzaIniziale, "nord")
-				.addStanzaVincente(nomeStanzaVincente )
-				.addAdiacenza("biblioteca", nomeStanzaVincente, "est")
-				.addAdiacenza(nomeStanzaVincente,"biblioteca" , "ovest")
-				.getLabirinto();
-		Partita p = new Partita(trilocale);
-		assertEquals(new Stanza(nomeStanzaIniziale), p.getStanzaCorrente());
-		/*rimozione dell'attrezzo*/
-		assertTrue(p.getStanzaCorrente().removeAttrezzo(new Attrezzo("libro antico", 5)));
-		/*spostamento in biblioteca*/
-		p.setStanzaCorrente(p.getStanzaCorrente().getStanzaAdiacente("sud"));
-		assertEquals("biblioteca", p.getStanzaCorrente().getNome());
-		/*stanza ad est inacessibile*/
-		assertEquals("biblioteca", p.getStanzaCorrente().getStanzaAdiacente("est").getNome());
-		p.getStanzaCorrente().addAttrezzo(new Attrezzo("libro antico", 5));
-		/*stanza ad est accessibile*/
-		assertEquals(nomeStanzaVincente, p.getStanzaCorrente().getStanzaAdiacente("est").getNome());
+	public void testGetStanzaCorrenteAllInizio() {
+		assertEquals(l.getStanzaCorrente(), p.getStanzaCorrente());
+	}
+
+	@Test
+	public void testGetStanzaCorrenteDopoSet() {
+		Stanza stanza1 = new Stanza("stanza 1");
+		p.setStanzaCorrente(stanza1);
+		assertEquals(stanza1, p.getStanzaCorrente());
+
+		Stanza stanza2 = new Stanza("stanza 2");
+		p.setStanzaCorrente(stanza2);
+		assertEquals(stanza2, p.getStanzaCorrente());
+
+		Stanza stanza3 = new Stanza("stanza 3");
+		p.setStanzaCorrente(stanza3);
+		assertEquals(stanza3, p.getStanzaCorrente());
+	}
+
+	@Test
+	public void testGetStanzaCorrenteDopoSetNull() {
+		p.setStanzaCorrente(null);
+		assertNull(p.getStanzaCorrente());
+	}
+
+	@Test
+	public void testGetStanzaCorrenteRestituisceStanzaVincente() {
+		p.setStanzaCorrente(l.getStanzaVincente());
+		assertEquals("Biblioteca", p.getStanzaCorrente().getNome());
 	}
 	
 	@Test
-	public void testPartitaConStanzaBuia() {
-		String nomeStanzaIniziale = "atrio";
-		String nomeStanzaVincente = "giardino";
-		Labirinto trilocale =new LabirintoBuilder()
-				.addStanzaIniziale(nomeStanzaIniziale )
-				.addAttrezzo("lanterna", 2)
-				.addStanzaBuia("biblioteca", "lanterna")
-				.addAdiacenza(nomeStanzaIniziale, "biblioteca", "sud")
-				.addAdiacenza("biblioteca", nomeStanzaIniziale, "nord")
-				.addStanzaVincente(nomeStanzaVincente )
-				.addAdiacenza("biblioteca", nomeStanzaVincente, "est")
-				.addAdiacenza(nomeStanzaVincente,"biblioteca" , "ovest")
-				.getLabirinto();
-		Partita p = new Partita(trilocale);
-		assertEquals(new Stanza(nomeStanzaIniziale), p.getStanzaCorrente());
-		/*spostamento in biblioteca*/
-		p.setStanzaCorrente(p.getStanzaCorrente().getStanzaAdiacente("sud"));
-		assertEquals("biblioteca", p.getStanzaCorrente().getNome());
-		/*Impossibile vedere attorno*/
-		assertEquals("qui c'è un buio pesto", p.getStanzaCorrente().getDescrizione());
+	public void testVintaDopoCreazione() {
+		assertFalse(p.vinta());
+	}
+
+	@Test
+	public void testVintaDopoSetStanzaCorrenteNonVincente() {
+		Stanza stanza1 = new Stanza("stanza 1");
+		p.setStanzaCorrente(stanza1);
+		assertFalse(p.vinta());
+	}
+
+	@Test
+	public void testVintaDopoSetStanzaCorrenteVincente() {
+		p.setStanzaCorrente(l.getStanzaVincente());
+		assertTrue(p.vinta());
 	}
 	
 	@Test
-	public void testPartitaConStanzaIlluminata() {
-		String nomeStanzaIniziale = "atrio";
-		String nomeStanzaVincente = "giardino";
-		Labirinto trilocale =new LabirintoBuilder()
-				.addStanzaIniziale(nomeStanzaIniziale )
-				.addAttrezzo("lanterna", 2)
-				.addStanzaBuia("biblioteca", "lanterna")
-				.addAdiacenza(nomeStanzaIniziale, "biblioteca", "sud")
-				.addAdiacenza("biblioteca", nomeStanzaIniziale, "nord")
-				.addStanzaVincente(nomeStanzaVincente )
-				.addAdiacenza("biblioteca", nomeStanzaVincente, "est")
-				.addAdiacenza(nomeStanzaVincente,"biblioteca" , "ovest")
-				.getLabirinto();
-		Partita p = new Partita(trilocale);
-		assertEquals(new Stanza(nomeStanzaIniziale), p.getStanzaCorrente());
-		/*rimozione lanterna per spostarla nella stanza buia*/
-		p.getStanzaCorrente().removeAttrezzo(new Attrezzo("lanterna", 2));
-		/*spostamento in biblioteca*/
-		p.setStanzaCorrente(p.getStanzaCorrente().getStanzaAdiacente("sud"));
-		assertEquals("biblioteca", p.getStanzaCorrente().getNome());
-		/*Impossibile vedere attorno*/
-		assertEquals("qui c'è un buio pesto", p.getStanzaCorrente().getDescrizione());
-		/*Inserimento lanterna e possibilità di vedere*/
-		p.getStanzaCorrente().addAttrezzo(new Attrezzo("lanterna", 2));
-		assertNotEquals("qui c'è un buio pesto", p.getStanzaCorrente().getDescrizione());
+	public void testGetLabirinto() {
+		assertEquals(l, p.getLabirinto());
 	}
+
+	@Test
+	public void tesGetGiocatore() {
+		assertEquals(g, p.getGiocatore());
+	}
+
+
 }

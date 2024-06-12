@@ -1,112 +1,41 @@
 package it.uniroma3.diadia.comandi;
 
+import org.junit.Before;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
-import org.junit.Test;
-
-import it.uniroma3.diadia.comandi.Comando;
-import it.uniroma3.diadia.comandi.FabbricaDiComandi;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
-
 public class FabbricaDiComandiFisarmonicaTest {
+	private FabbricaDiComandiFisarmonica fabbrica;
 
-	@Test
-	public void testComandoNonValido() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("nulla");
-		assertEquals("Comando non valido", comando.getNome());
-	}
-	
-	@Test
-	public void testComandoVai() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("vai nord");
-		assertEquals("Comando vai", comando.getNome());
-	}
-	
-	@Test
-	public void testComandoVaiSenzaDirezione() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("vai");
-		assertNull(comando.getParametro());
+	@Before
+	public void setUp() {
+		fabbrica = new FabbricaDiComandiFisarmonica();
 	}
 
 	@Test
-	public void testComandoVaiConDirezione() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
+	public void testCostruisciComando() {
 		Comando comando = fabbrica.costruisciComando("vai nord");
+		assertTrue(comando instanceof ComandoVai);
 		assertEquals("nord", comando.getParametro());
-	}
-	
-	@Test
-	public void testComandoPrendi() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("prendi osso");
-		assertEquals("Comando prendi", comando.getNome());
 
-	}
-	
-	@Test
-	public void testComandoPrendiSenzaParametro() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("prendi");
-		assertNull(comando.getParametro());
+		comando = fabbrica.costruisciComando("prendi attrezzo");
+		assertTrue(comando instanceof ComandoPrendi);
+		assertEquals("attrezzo", comando.getParametro());
 
-	}
-	
-	@Test
-	public void testComandoPrendiConParametro() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("prendi osso");
-		assertEquals("osso", comando.getParametro());
+		comando = fabbrica.costruisciComando("posa attrezzo");
+		assertTrue(comando instanceof ComandoPosa);
+		assertEquals("attrezzo", comando.getParametro());
 
-	}
-	
-	@Test
-	public void testComandoPosa() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("posa osso");
-		assertEquals("Comando posa", comando.getNome());
+		comando = fabbrica.costruisciComando("aiuto");
+		assertTrue(comando instanceof ComandoAiuto);
 
-	}
-	
-	@Test
-	public void testComandoPosaSenzaParametro() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("posa");
-		assertNull(comando.getParametro());
+		comando = fabbrica.costruisciComando("fine");
+		assertTrue(comando instanceof ComandoFine);
 
-	}
-	
-	@Test
-	public void testComandoPosaConParametro() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("posa osso");
-		assertEquals("osso", comando.getParametro());
+		comando = fabbrica.costruisciComando("guarda");
+		assertTrue(comando instanceof ComandoGuarda);
 
-	}
-	
-	@Test
-	public void testComandoAiuto() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("aiuto");
-		assertEquals("Comando aiuto", comando.getNome());
-
-	}
-	
-	@Test
-	public void testComandoFine() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("fine");
-		assertEquals("Comando fine", comando.getNome());
-
-	}
-	
-	@Test
-	public void testComandoGuarda() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiFisarmonica();
-		Comando comando = fabbrica.costruisciComando("guarda");
-		assertEquals("Comando guarda", comando.getNome());
-
+		comando = fabbrica.costruisciComando("non_valido");
+		assertTrue(comando instanceof ComandoNonValido);
 	}
 }

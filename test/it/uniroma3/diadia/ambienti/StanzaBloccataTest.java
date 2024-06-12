@@ -2,72 +2,51 @@ package it.uniroma3.diadia.ambienti;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class StanzaBloccataTest {
 
-	@Test
-	public void testGetDirezioneBloccata() {
-		StanzaBloccata s = new StanzaBloccata("stanza", "nord", "chiave");
-		assertEquals("nord", s.getDirezioneBloccata());
-	}
+	private StanzaBloccata sb;
+	private Stanza s;
+	private Attrezzo a;
 	
-	@Test
-	public void testGetNomeChiave() {
-		StanzaBloccata s = new StanzaBloccata("stanza", "nord", "chiave");
-		assertEquals("chiave", s.getChiave());
+	@Before
+	public void setUp() {
+		sb = new StanzaBloccata("StanzaBloccata", Direzione.ovest, "piedediporco"); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
+		s = new Stanza("Stanzetta");
+		a = new Attrezzo("piedediporco", 1);
+		sb.impostaStanzaAdiacente(Direzione.ovest, s); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
+		
 	}
 
 	@Test
-	public void testStanzaDirezioneAccessibile() {
-		StanzaBloccata s = new StanzaBloccata("stanza", "nord", "chiave");
-		Stanza stanzaAdiacente = new Stanza("stanza accessibile");
-		s.impostaStanzaAdiacente("sud", stanzaAdiacente);
-		assertEquals(stanzaAdiacente, s.getStanzaAdiacente("sud"));
+	public void testGetStanzaAdiacenteDirezioneBloccata() {
+		assertEquals(sb, sb.getStanzaAdiacente(Direzione.ovest)); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
 	}
 	
 	@Test
-	public void testStanzaDirezioneBloccata() {
-		StanzaBloccata s = new StanzaBloccata("stanza", "nord", "chiave");
-		assertEquals(s, s.getStanzaAdiacente("nord"));
+	public void testGetStanzaAdiacenteDirezioneSbloccata() {
+		sb.addAttrezzo(a);
+		assertEquals(s, sb.getStanzaAdiacente(Direzione.ovest)); //c'era "ovest" tra parentesi e ora ho messo Direzione.ovest
+		
 	}
 
 	@Test
-	public void testStanzaDirezioneSbloccata() {
-		StanzaBloccata s = new StanzaBloccata("stanza", "nord", "chiave");
-		Stanza stanzaAdiacente = new Stanza("unlocked");
-		s.addAttrezzo(new Attrezzo("chiave", 1));
-		s.impostaStanzaAdiacente("nord", stanzaAdiacente);
-		assertEquals(stanzaAdiacente, s.getStanzaAdiacente("nord"));
+	public void testGetDescrizioneDirezioneSbloccata() {
+		sb.addAttrezzo(a);
+		assertEquals(sb.toString(), sb.getDescrizione());
 	}
 	
 	@Test
-	public void testStanzeNomeUgualeConTipiDinamiciUguali() {
-		Stanza s1 = new StanzaBloccata("cantina","sud", "chiave");
-		Stanza s2 = new StanzaBloccata("cantina","sud", "chiave");
-		assertTrue(s1.equals(s2));
+	public void testGetDescrizioneDirezioneBloccata() {
+		String e = "La direzione ovest è bloccata. Prendi il piedediporco e posalo nella stanza.";
+		assertEquals(e, sb.getDescrizione());
+		
 	}
-	
-	@Test
-	public void testStanzeDiverseConTipiDinamiciUguali() {
-		Stanza s1 = new StanzaBloccata("salone", "nord", "forchetta");
-		Stanza s2 = new StanzaBloccata("soggiorno", "sud", "telecomando");
-		assertFalse(s1.equals(s2));
-	}
-	
-	@Test
-	public void testStanzeConTipiDinamiciDiversi() {
-		Stanza s1 = new StanzaBloccata("cantina","sud", "chiave");
-		Stanza s2 = new Stanza("cantina");
-		assertFalse(s1.equals(s2));
-	}
-	
-	@Test
-	public void testStanzeDiverseConTipiDinamiciDiversi() {
-		Stanza s1 = new StanzaBloccata("salone", "nord", "forchetta");
-		Stanza s2 = new Stanza("soggiorno");
-		assertFalse(s1.equals(s2));
-	}
+
+
+
 }

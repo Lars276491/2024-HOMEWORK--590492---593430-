@@ -1,39 +1,37 @@
 package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
 
-public class ComandoSaluta extends AbstractComando {
+public class ComandoSaluta implements Comando {
 
-	private static final String MESSAGGIO_CHI = "Chi dovrei salutare?...";
-	private String messaggio;
-	
-	public ComandoSaluta(String msg) {
-		this.messaggio = msg;
-	}
-	
-	public ComandoSaluta() {
-		this(null);
-	}
-	
-	@Override
-	public void esegui(Partita partita, IO io) {
-		AbstractPersonaggio personaggio;
-		personaggio = partita.getStanzaCorrente().getPersonaggio();
-		if (personaggio!=null) {
-			this.messaggio = personaggio.saluta();
-			io.mostraMessaggio(this.messaggio);
+    private IO io;
 
-		} else
-			io.mostraMessaggio(MESSAGGIO_CHI);
-		
-	}
+    @Override
+    public void esegui(Partita partita) {
+        AbstractPersonaggio personaggio = partita.getStanzaCorrente().getPersonaggio();
+        if (personaggio != null) {
+            String messaggio = personaggio.saluta();
+            io.mostraMessaggio(messaggio);
+        } else {
+            io.mostraMessaggio("Non c'è nessun personaggio con cui salutare.");
+        }
+    }
 
-	@Override
-	public String getNome() {
-		return "Comando saluta";
-	}
-	
+    @Override
+    public String getNome() {
+        return "saluta";
+    }
+
+    @Override
+    public void setParametro(String parametro) {
+        // Questo comando non richiede parametri
+    }
+
+    @Override
+    public String getParametro() {
+        // Questo comando non richiede parametri
+        return null;
+    }
 }

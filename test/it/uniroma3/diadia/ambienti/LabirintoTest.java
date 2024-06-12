@@ -1,42 +1,41 @@
 package it.uniroma3.diadia.ambienti;
-
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
+
 public class LabirintoTest {
+	private Labirinto l = new Labirinto();
+	private final Stanza si = new Stanza("Atrio");
+	private final Stanza sd = new Stanza("Stanza diversa");
+	private final Stanza sv = new Stanza("Biblioteca");
+	
+	@Before
+	public void setUp() {
+		l = new LabirintoBuilder()
+				.addStanzaIniziale("Atrio")
+				.addAttrezzo("martello", 3)
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("Atrio", "Biblioteca", Direzione.nord) 
+				.getLabirinto();
+	}
 	
 	@Test
-	public void testCostruttoreLabirinto() {
-		assertNotNull(Labirinto.newBuilder().getLabirinto());
+	public void testGetStanzaIniziale() {
+		assertEquals(si.getNome(), l.getStanzaCorrente().getNome());
 	}
 	
 	@Test
 	public void testGetStanzaVincente() {
-		assertEquals("Biblioteca", Labirinto.newBuilder().getLabirinto().getStanzaVincente().getNome());
-	}
-
-	@Test
-	public void testGetStanzaIniziale() {
-		assertNotNull(Labirinto.newBuilder().getLabirinto().getStanzaIniziale());
+		assertEquals(sv.getNome(), l.getStanzaVincente().getNome());
 	}
 	
 	@Test
-	public void testNuovaStanzaIniziale() {
-		Labirinto lab = Labirinto.newBuilder().getLabirinto();
-		lab.setStanzaIniziale(new Stanza("cucina"));
-		assertEquals(new Stanza("cucina"), lab.getStanzaIniziale());
+	public void testStanzaInzialeDiversoAtrio() {
+		assertFalse(l.getStanzaCorrente().getNome()== sd.getNome());
 	}
 	
-	@Test
-	public void testNuovaStanzaVincente() {
-		Labirinto lab = Labirinto.newBuilder().getLabirinto();
-		lab.setStanzaVincente(new Stanza("cucina"));
-		assertEquals(new Stanza("cucina"), lab.getStanzaVincente());
-	}
 	
-	@Test
-	public void testGetStanzaVincenteCaricata() {
-		assertEquals("Biblioteca", Labirinto.newBuilder().getStanzaVincente().getNome());
-	}
 }

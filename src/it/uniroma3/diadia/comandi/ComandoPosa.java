@@ -1,57 +1,25 @@
 package it.uniroma3.diadia.comandi;
-
-import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-
-public class ComandoPosa implements Comando {
-
-	private String nomeAttrezzo;
-
-	public ComandoPosa(String parametro) {
-		this.nomeAttrezzo = parametro;
-	}
-
-	public ComandoPosa() {
-		this(null);
-	}
-	
-	/**
-	 * Comando "Posa".
-	 * 
-	 * @param partita
-	 */
+import it.uniroma3.diadia.*;
+public class ComandoPosa extends AbstractComando{
+	IO io = new IOConsole();	
 	@Override
-	public void esegui(Partita partita, IO io) {
-		if (partita == null)
+	public void esegui(Partita partita) {
+		if(partita == null)
 			return;
-		
-		if (nomeAttrezzo == null)
-			io.mostraMessaggio("Che attrezzo vuoi posare?");
-		if (partita.getGiocatore().getBorsa().hasAttrezzo(nomeAttrezzo)) {
-			Attrezzo attrezzo = partita.getGiocatore().getBorsa().removeAttrezzo(nomeAttrezzo);
-			if (partita.getStanzaCorrente().addAttrezzo(attrezzo) == false) {
-				io.mostraMessaggio("La stanza ha troppi oggetti. Non lo puoi posare");
-				partita.getGiocatore().getBorsa().getAttrezzo(nomeAttrezzo);
-			} else
+		if(super.getParametro()==null)
+			io.mostraMessaggio("Che attrezzo vuoi posare");
+		else {
+			Attrezzo attrezzo = partita.getGiocatore().getBorsa().removeAttrezzo(super.getParametro());
+			if(partita.getStanzaCorrente().addAttrezzo(attrezzo))
 				io.mostraMessaggio("L'attrezzo è stato posato nella stanza");
-		} else
-			io.mostraMessaggio("Attrezzo non è presente nella borsa");
-
+			else {
+				partita.getGiocatore().getBorsa().addAttrezzo(attrezzo);
+				io.mostraMessaggio("Impossibile posare attrezzo");
+			}
+		}
 	}
-
-	@Override
-	public void setParametro(String parametro) {
-		this.nomeAttrezzo = parametro;
-
-	}
-
-	@Override
-	public String getParametro() {
-		return this.nomeAttrezzo;
-	}
-
 	@Override
 	public String getNome() {
 		return "Comando posa";

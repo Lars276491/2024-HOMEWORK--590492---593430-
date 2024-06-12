@@ -1,37 +1,21 @@
 package it.uniroma3.diadia.comandi;
 
-import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 
-public abstract class AbstractComando implements Comando{
-
-	private String comando;
-
-	public AbstractComando(String comando) {
-		this.comando = comando;
-
-	}
+public abstract class AbstractComando implements Comando {
 	
-	public AbstractComando() {
-		this(null);
-	}
+	private String parametro;
 	
-
-	@Override
-	public abstract void esegui(Partita partita, IO io);
-	
-	@Override
-	public void setParametro(String parametro) {
-		this.comando = parametro;
-
-	}
-
-	@Override
 	public String getParametro() {
-		return this.comando;
+		return parametro;
+	}
+
+	public void setParametro(String parametro) {
+		this.parametro=parametro;
 	}
 	
-	@Override
+	public abstract void esegui(Partita partita);
+	
 	public abstract String getNome();
+
 }

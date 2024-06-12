@@ -1,220 +1,221 @@
 package it.uniroma3.diadia.ambienti;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import it.uniroma3.diadia.Direzioni;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
-
 /**
- * Classe Stanza - una stanza in un gioco di ruolo. Una stanza e' un luogo
- * fisico nel gioco. E' collegata ad altre stanze attraverso delle uscite. Ogni
- * uscita e' associata ad una direzione.
+ * Classe Stanza - una stanza in un gioco di ruolo.
+ * Una stanza e' un luogo fisico nel gioco.
+ * E' collegata ad altre stanze attraverso delle uscite.
+ * Ogni uscita e' associata ad una direzione.
  * 
- * @author docente di POO e 589489 e 589300
+ * @author docente di POO 
  * @see Attrezzo
- * @version v1.0
+ * @version base
  */
-
-public class Stanza implements Comparable<Stanza>{
+public class Stanza {
+	//	static final private int NUMERO_MASSIMO_ATTREZZI = 10; da togliere perchè riguarda ancora gli array, ma poi siamo passati alle liste e quindi questo va tolto
 
 	private String nome;
-	private List<Attrezzo> attrezzi;
-	private Map<Direzioni, Stanza> stanzeAdiacenti;
+	private Map<String,Attrezzo> attrezzi;    
+	private int numeroAttrezzi;
+
+	
+	/* presi da notion */
+	private Map<Direzione, Stanza> direzioni2stanze;
+	private int numeroStanzeAdiacenti;
 	private AbstractPersonaggio personaggio;
+
 
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
-	 * 
-	 * @param nome il nome della stanza
-	 * @param personaggio nella stanza
-	 */
-	public Stanza(String nome, AbstractPersonaggio p) {
-		this.nome = nome;
-		this.stanzeAdiacenti = new HashMap<>();
-		this.attrezzi = new ArrayList<>();
-		this.personaggio = p;
-	}
-	
-	/**
-	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
-	 * 
 	 * @param nome il nome della stanza
 	 */
 	public Stanza(String nome) {
-		this(nome, null);
+		this.nome = nome;
+		this.numeroStanzeAdiacenti = 0; //da notion
+		this.numeroAttrezzi = 0;
+		
+		this.attrezzi = new HashMap<>(); // notion non lo mette
+		this.direzioni2stanze = new HashMap<>(); //da notion
+
+	}
+	
+	public List<Stanza> getStanzeAdiacenti() {
+		List<Stanza> listaStanzeAdiacenti = new ArrayList<>();
+		for (Stanza s : direzioni2stanze.values()) {
+			listaStanzeAdiacenti.add(s);
+		}
+		return listaStanzeAdiacenti;
 	}
 
+	public void setStanzeAdiacenti(Map<Direzione, Stanza> stanzeAdiacenti) {
+		this.direzioni2stanze = stanzeAdiacenti;
+	}
+
+	public int getNumeroStanzeAdiacenti() {
+		return numeroStanzeAdiacenti;
+	}
+
+	public void setNumeroStanzeAdiacenti(int numeroStanzeAdiacenti) {
+		this.numeroStanzeAdiacenti = numeroStanzeAdiacenti;
+	}
+/*
+	public int getNumeroAttrezziPossibili() {
+		return NUMERO_MASSIMO_ATTREZZI-this.numeroAttrezzi;
+	}
+*/
+	
 	/**
 	 * Imposta una stanza adiacente.
 	 *
 	 * @param direzione direzione in cui sara' posta la stanza adiacente.
-	 * @param stanza    stanza adiacente nella direzione indicata dal primo
-	 *                  parametro.
+	 * @param stanza stanza adiacente nella direzione indicata dal primo parametro.
 	 */
-	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
-		for(Direzioni d : Direzioni.values())
-			if(d.toString().equals(direzione))
-				this.stanzeAdiacenti.put(d, stanza);
-	}
-
+	public void impostaStanzaAdiacente(Direzione direzione, Stanza stanza) {
+		this.direzioni2stanze.put(direzione, stanza);
+	}//da confrontare con notion
+	
 	/**
 	 * Restituisce la stanza adiacente nella direzione specificata
-	 * 
 	 * @param direzione
 	 */
-	public Stanza getStanzaAdiacente(String direzione) {
-		for(Direzioni d : Direzioni.values())
-			if(d.toString().equals(direzione))
-				return this.stanzeAdiacenti.get(d);
-		return null;
-	}
-
-	/**
-	 * Restituisce la mappa delle stanze adiacenti nella direzione specificata
-	 * 
-	 * 
-	 */
-	public Map<Direzioni, Stanza> getStanzeAdiacenti(){
-		return this.stanzeAdiacenti;
+	public Stanza getStanzaAdiacente(Direzione direzione) {
+		return direzioni2stanze.get(direzione);
 	}
 
 	/**
 	 * Restituisce la nome della stanza.
-	 * 
 	 * @return il nome della stanza
 	 */
 	public String getNome() {
 		return this.nome;
 	}
-
 	/**
 	 * Restituisce la descrizione della stanza.
-	 * 
 	 * @return la descrizione della stanza
 	 */
 	public String getDescrizione() {
 		return this.toString();
 	}
-
 	/**
-	 * Restituisce l'insieme delle direzioni in cui poter andare
-	 * 
-	 * @return l'insieme delle direzioni
+	 * Restituisce la collezione di attrezzi presenti nella stanza.
+	 * @return 
+	 * @return la collezione di attrezzi nella stanza.
 	 */
-	public Set<Direzioni> getDirezioni() {
-		return this.stanzeAdiacenti.keySet();
-	}
-
-	/**
-	 * Restituisce la lista di attrezzi presenti nella stanza.
-	 * 
-	 * @return la lista di attrezzi nella stanza.
+	/* qui ho cambiato Collection<Attrezzi> con
+	 * Map<String, Attrezzo> perchè con collection
+	 * era generico (capire meglio perchè ho dovuto 
+	 * togliere collection e mettere Map<String, Attrezzo>
 	 */
-	public List<Attrezzo> getAttrezzi() {
+	/*
+	public  Map<String, Attrezzo> getAttrezzi() {
 		return this.attrezzi;
+	}*/
+	public List<Attrezzo> getAttrezzi() {
+		return new ArrayList<>(this.attrezzi.values());
 	}
-
-	public Map<Direzioni, Stanza> getMapStanzeAdiacenti() {
-		return this.stanzeAdiacenti;
-	}
-
 	/**
 	 * Mette un attrezzo nella stanza.
-	 * 
 	 * @param attrezzo l'attrezzo da mettere nella stanza.
-	 * @return true se riesce ad aggiungere l'attrezzo, false atrimenti.
+	 * @return true se riesce ad aggiungere l'attrezzo, false altrimenti.
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
-		if (attrezzo == null || this.attrezzi.contains(attrezzo))
-			return false;
-		return this.attrezzi.add(attrezzo);
+		if (attrezzo != null) {
+			this.attrezzi.put(attrezzo.getNome(), attrezzo); //la put sovrascrive
+			return true;
+		}
+		return false;
 	}
 
 	/**
-	 * Restituisce una rappresentazione stringa di questa stanza, stampadone la
-	 * descrizione, le uscite e gli eventuali attrezzi contenuti
-	 * 
+	 * Restituisce una rappresentazione stringa di questa stanza,
+	 * stampandone la descrizione, le uscite e gli eventuali attrezzi contenuti
 	 * @return la rappresentazione stringa
 	 */
 	public String toString() {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append(this.nome);
 		risultato.append("\nUscite: ");
-		if(!this.stanzeAdiacenti.isEmpty())
-			risultato.append(this.getDirezioni().toString());
+		for (Direzione direzione : this.getDirezioni())
+			risultato.append(" " + direzione);
 		risultato.append("\nAttrezzi nella stanza: ");
-		if(!this.attrezzi.isEmpty())
-			risultato.append(this.attrezzi.toString()+"\n");
-		if(this.getPersonaggio() != null)
-			risultato.append(this.getPersonaggio().getNome());
+		/* ho modificato qui perchè prima avevo fatto
+		 * for(Attrezzo attrezzo : this.getAttrezzi()){
+		 * 		if(attrezzo!=null)
+					risultato.append(attrezzo.toString()+" ");
+		   } e avendo cambiato sopra con public Map<String, Attrezzo> getAttrezzi() {
+		return this.attrezzi; dovevo cambiare anche questo for
+	}
+		 */
+		for (String nomeAttrezzo : this.attrezzi.keySet()) {
+			Attrezzo attrezzo=this.attrezzi.get(nomeAttrezzo);
+			if(attrezzo!=null)
+				risultato.append(attrezzo.toString()+" ");
+		}
 		return risultato.toString();
 	}
-
 	/**
 	 * Controlla se un attrezzo esiste nella stanza (uguaglianza sul nome).
-	 * 
 	 * @return true se l'attrezzo esiste nella stanza, false altrimenti.
 	 */
 	public boolean hasAttrezzo(String nomeAttrezzo) {
-		if(nomeAttrezzo == null)
-			return false;
-		Attrezzo a = new Attrezzo(nomeAttrezzo, 0);
-		return this.attrezzi.contains(a);
-	}
+		return this.attrezzi.containsKey(nomeAttrezzo);
 
+	}
 	/**
 	 * Restituisce l'attrezzo nomeAttrezzo se presente nella stanza.
-	 * 
 	 * @param nomeAttrezzo
-	 * @return l'attrezzo presente nella stanza. null se l'attrezzo non e' presente.
+	 * @return l'attrezzo presente nella stanza.
+	 * 		   null se l'attrezzo non e' presente.
 	 */
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		if (!this.hasAttrezzo(nomeAttrezzo))
-			return null;
-		Attrezzo a = new Attrezzo(nomeAttrezzo, 0);
-		return this.attrezzi.get(this.attrezzi.indexOf(a));
+		return this.attrezzi.get(nomeAttrezzo);	
 	}
-
 	/**
 	 * Rimuove un attrezzo dalla stanza (ricerca in base al nome).
-	 * 
 	 * @param nomeAttrezzo
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
-		return this.attrezzi.remove(attrezzo);
+		//verifico che ci sia
+		if(attrezzo != null)
+			return this.attrezzi.remove(attrezzo.getNome()) != null;
+		return false;
+	}
+	public  List<Direzione> getDirezioni() {
+		return new ArrayList<>(direzioni2stanze.keySet());
+	}
+
+	/* questo ritorna la mappa delle stanze adiacenti */
+	public Map<Direzione,Stanza> getMapStanzeAdiacenti() {
+		return this.direzioni2stanze;
 	}
 
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null)
-			return false;
-		Stanza that = (Stanza) obj;
-		return this.nome.equals(that.getNome());
+	public void setPersonaggio(AbstractPersonaggio personaggio) {
+		this.personaggio = personaggio;
 	}
-	
-	@Override
-	public int compareTo(Stanza s1) {
-		return this.nome.compareTo(s1.getNome());
-	}
-	
-	@Override
-	public int hashCode() {
-		return this.getClass().hashCode()+ this.nome.hashCode();
-	}
-
-	public void setPersonaggio(AbstractPersonaggio p) {
-		this.personaggio = p;
-	}
-	
 	public AbstractPersonaggio getPersonaggio() {
 		return this.personaggio;
 	}
+	
+	
+	/* l'ho aggiunto perchè quando ho copiato da notion il metodo agisci per la classe
+	 * strega, su notion c'era sto metodo e io qui in stanza ancora non ce lo avevo
+	 */
+	public int getNumeroAttrezzi() {
+		return numeroAttrezzi;
+	}
+
+
 
 }
+
+
+
+

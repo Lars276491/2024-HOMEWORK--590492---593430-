@@ -1,36 +1,55 @@
 package it.uniroma3.diadia;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class IOSimulator implements IO {
 
-	private int numeroRighelette;
-	private List<String> sequenzaComandi;
+	private List<String> righeLette;
+	private int indiceRigheLette;
 
-	public IOSimulator(List<String> sequenzaComandi) {
-		this.numeroRighelette = 0;
-		this.sequenzaComandi = new ArrayList<>(sequenzaComandi);
+	public List<String> getMessaggiProdotti() {
+		return messaggiProdotti;
 	}
 
-	@Override
-	public void mostraMessaggio(String messaggio) {
-		System.out.println(messaggio);
+	public void setMessaggiProdotti(List<String> messaggiProdotti) {
+		this.messaggiProdotti = messaggiProdotti;
+	}
+
+	private List<String> messaggiProdotti;
+	private int indiceMessaggiProdotti;
+	private int indiceMessaggiMostrati;
+
+	public IOSimulator(List<String> righeDaLeggere) {
+		this.righeLette = righeDaLeggere;
+		this.indiceRigheLette = 0;
+		this.indiceMessaggiMostrati = 0;
+		this.messaggiProdotti = new ArrayList<String>();
 	}
 
 	@Override
 	public String leggiRiga() {
-		if(this.sequenzaComandi.isEmpty()) {
-			this.mostraMessaggio("Lista comandi vuota");
-			return "fine";
-		}
-		if (this.numeroRighelette == this.sequenzaComandi.size()) {
-			this.mostraMessaggio("Superati numero di comandi automatici");
-			return "fine";
-		}else
-			this.mostraMessaggio(this.sequenzaComandi.get(numeroRighelette));
-		return this.sequenzaComandi.get(numeroRighelette++);
+		String riga = null;
 
+		riga = this.righeLette.get(indiceRigheLette);
+		this.indiceRigheLette++;
+		return riga;
+	}
+
+	@Override
+	public void mostraMessaggio(String msg) {
+		this.messaggiProdotti.add(this.indiceMessaggiProdotti, msg);
+		this.indiceMessaggiProdotti++;
+	}
+
+	public String nextMessaggio() {
+		String next = this.messaggiProdotti.get(indiceMessaggiMostrati);
+		this.indiceMessaggiMostrati++;
+		return next;
+	}
+
+	public boolean hasNextMessaggio() {
+		return this.indiceMessaggiMostrati < this.indiceMessaggiProdotti;
 	}
 
 }

@@ -1,58 +1,47 @@
 package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-import it.uniroma3.diadia.personaggi.Cane;
-import it.uniroma3.diadia.personaggi.Mago;
+import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
 
 public class ComandoRegala implements Comando {
 
-	private final static String REGALA_COSA = "Cosa vuoi regalare?";
-	
-	private String nomeAttrezzo;
-	
-	public ComandoRegala(String nomeAttrezzo) {
-		this.nomeAttrezzo = nomeAttrezzo;
-	}
-	
-	public ComandoRegala() {
-		this(null);
-	}
-	
-	@Override
-	public void esegui(Partita partita, IO io) {
-		if(this.nomeAttrezzo == null) {
-			io.mostraMessaggio(REGALA_COSA);
-			return;
-		}
-		if(partita.getStanzaCorrente().getPersonaggio() == null)
-			io.mostraMessaggio("Non c'è nessuno nella stanza");
-		Attrezzo a = partita.getGiocatore().getBorsa().removeAttrezzo(this.nomeAttrezzo);
-		if(a == null) {
-			io.mostraMessaggio("Attrezzo non presente in borsa");
-		}else {
-			String risposta = partita.getStanzaCorrente().getPersonaggio().riceviRegalo(a, partita);
-			io.mostraMessaggio(risposta);
-		}
+    private String parametro;
+    private IO io;
 
-	}
+    @Override
+    public void esegui(Partita partita) {
+        if (parametro != null && !parametro.isEmpty()) {
+            Attrezzo attrezzo = partita.getGiocatore().getBorsa().getAttrezzo(parametro);
+            if (attrezzo != null) {
+                AbstractPersonaggio personaggio = partita.getStanzaCorrente().getPersonaggio();
+                if (personaggio != null) {
+                    String messaggio = personaggio.riceviRegalo(attrezzo, partita);
+                    io.mostraMessaggio(messaggio);
+                } else {
+                    io.mostraMessaggio("Non c'è nessun personaggio con cui interagire.");
+                }
+            } else {
+                io.mostraMessaggio("Non possiedi un attrezzo con quel nome.");
+            }
+        } else {
+            io.mostraMessaggio("Devi specificare quale attrezzo vuoi regalare.");
+        }
+    }
+    
+    @Override
+    public String getNome() {
+        return "regala";
+    }
+/* questi sotto li devo leva e mettere extends AbstractComando per caso */
+    @Override
+    public void setParametro(String parametro) {
+        this.parametro = parametro;
+    }
 
-	@Override
-	public void setParametro(String parametro) {
-		this.nomeAttrezzo = parametro;
-
-	}
-
-	@Override
-	public String getParametro() {
-		return this.nomeAttrezzo;
-	}
-
-	@Override
-	public String getNome() {
-		return "Comando regala";
-	}
-
+    @Override
+    public String getParametro() {
+        return this.parametro;
+    }
 }

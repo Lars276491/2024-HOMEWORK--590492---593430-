@@ -1,40 +1,42 @@
 package it.uniroma3.diadia.comandi;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import it.uniroma3.diadia.Partita;
+
 public class AbstractComandoTest {
+	private AbstractComando comando;
 
-	@Test
-	public void testComandoAiuto() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiRiflessiva();
-		Comando comando = fabbrica.costruisciComando("aiuto");
-		assertEquals("Comando aiuto", comando.getNome());
+    @Before
+    public void setUp() {
+        // Creiamo una sottoclasse concreta di AbstractComando per i test
+        comando = new AbstractComando() {
+            @Override
+            public void esegui(Partita partita) {
+                // Implementazione di prova
+            }
 
-	}
-	
-	@Test
-	public void testComandoFine() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiRiflessiva();
-		Comando comando = fabbrica.costruisciComando("fine");
-		assertEquals("Comando fine", comando.getNome());
+            @Override
+            public String getNome() {
+                return "comandoTest";
+            }
+        };
+ 
+    }
 
-	}
-	
-	@Test
-	public void testComandoGuarda() {
-		FabbricaDiComandi fabbrica = new FabbricaDiComandiRiflessiva();
-		Comando comando = fabbrica.costruisciComando("guarda");
-		assertEquals("Comando guarda", comando.getNome());
+    @Test
+    public void testSetParametro() {
+        String parametro = "parametroTest";
+        comando.setParametro(parametro);
+        assertEquals(parametro, comando.getParametro());
+    }
 
-	}
-	
-	@Test
-	public void testMetodiAbstractComando() {
-		/*Usiamo un oggetto di ComandoAiuto per testare i metodi di AbstractComando*/
-		AbstractComando c = new ComandoAiuto();
-		c.setParametro("parametro settato");
-		assertEquals("parametro settato", c.getParametro());
-	}
+    @Test
+    public void testGetNome() {
+        assertEquals("comandoTest", comando.getNome());
+    }
 }
+
